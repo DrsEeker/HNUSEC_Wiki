@@ -1,0 +1,33 @@
+#Project Information 
+site_name: HNUSEC Wiki
+site_description: HNUSEC Wiki
+site_author: HNUSEC
+site_url: http://wiki.hnusec.group
+
+# Repository
+repo_name: DrsEeker/HNUSEC_Wiki
+repo_url: 'https://github.com/DrsEeker/HNUSEC_Wiki'
+
+# Copyright
+copyright: 'Copyright &copy; 2019 - 2020 HNUSEC'
+
+# Content
+nav:
+    - Introduction:
+        - Getting Started: index.md
+        - CTF Contest Content: Introduction/contest.md
+    - Course:
+        - Test: Course/test.md
+theme:
+  name: material
+  language: 'zh'
+  palette:
+    primary: 'Blue Grey'
+    accent: 'Purple'
+  logo:
+    icon: 'school'
+  feature:
+    tabs: true 
+  font:
+    text: 'Noto Sans'
+    code: 'Source Code Pro'

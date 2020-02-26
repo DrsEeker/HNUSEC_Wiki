@@ -2,6 +2,8 @@
 
 欢迎来到**HNUSEC Wiki**
 
+![](logo.png)
+
 HNUSEC Wiki是由**湖南大学信安协会**所搭建的Wiki平台
 
 内容包括但不限于**课程资料**，**专业技能**，**CTF知识**，**论文导读**，以及各种**有趣的**文章，公众号
@@ -13,7 +15,8 @@ HNUSEC Wiki是由**湖南大学信安协会**所搭建的Wiki平台
 ## Before reading
 
 初生的Wiki需要你的血液，我们在这里欢迎所有想要**贡献词条**的小伙伴！
-详情发送邮件: 978078524@qq.com
+
+详情发送邮件至978078524@qq.com
 
 本Wiki平台基于[MkDocs](https://www.mkdocs.org/), [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)和[CTF Wiki](https://ctf-wiki.github.io/ctf-wiki/)
 

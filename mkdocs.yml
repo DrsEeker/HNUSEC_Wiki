@@ -17,13 +17,30 @@ nav:
         - Getting Started: index.md
         - CTF Contest Content: Introduction/contest.md
     - Course:
-        - Test: Course/test.md
+        - Introduction: Course/introduction.md
+    - CTF-Misc:
+        - Introduction: CTF-Misc/introduction.md
+    - CTF-Web:
+        - Introduction: CTF-Web/introduction.md
+    - CTF-Pwn:
+        - Introduction: CTF-Pwn/introduction.md
+    - CTF-Reverse:
+        - Introduction: CTF-Reverse/introduction.md
+    - CTF-Crypto:
+        - Introduction: CTF-Crypto/introduction.md            
+    - Papers:
+        - Introduction: Papers/introduction.md
+    - CVE:
+        - Introduction: CVE/introduction.md
+    - F&Q:
+        - Introduction: F&Q/introduction.md
+
 theme:
   name: material
   language: 'zh'
   palette:
-    primary: 'Blue Grey'
-    accent: 'Purple'
+    primary: 'Teal'
+    accent: 'Pink'
   logo:
     icon: 'school'
   feature:

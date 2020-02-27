@@ -32,6 +32,8 @@ nav:
         - Introduction: Papers/introduction.md
     - CVE:
         - Introduction: CVE/introduction.md
+    - Links:
+        - Introduction: Links/introduction.md
     - F&Q:
         - Introduction: F&Q/introduction.md
 

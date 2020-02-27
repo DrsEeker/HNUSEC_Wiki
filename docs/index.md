@@ -2,7 +2,7 @@
 
 欢迎来到 **HNUSEC Wiki**
 
-![](logo.png)
+<img src="logo.png" width=75% height=75% align=center>
 
 HNUSEC Wiki是由 **湖南大学信安协会** 所搭建的Wiki平台
 

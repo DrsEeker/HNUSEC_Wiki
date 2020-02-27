@@ -8,7 +8,7 @@
 
 现有技术核心团队，CTF战队 **Fiat Lux** 总计10余人，活跃会员20余人
 
-<img src="./img/Fiat_Lux.png" width=50% height=50% align=center>
+<img src="../img/Fiat_Lux.png" width=25% height=25% align=center>
 
 ## 时间线
 

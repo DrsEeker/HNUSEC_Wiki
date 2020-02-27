@@ -1,47 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>http://wiki.hnusec.group/</loc>
-     <lastmod>2020-02-26</lastmod>
+     <lastmod>2020-02-27</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Introduction/contest/</loc>
-     <lastmod>2020-02-26</lastmod>
+     <lastmod>2020-02-27</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Course/introduction/</loc>
-     <lastmod>2020-02-26</lastmod>
+     <lastmod>2020-02-27</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/CTF-Misc/introduction/</loc>
-     <lastmod>2020-02-26</lastmod>
+     <lastmod>2020-02-27</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/CTF-Web/introduction/</loc>
-     <lastmod>2020-02-26</lastmod>
+     <lastmod>2020-02-27</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/CTF-Pwn/introduction/</loc>
-     <lastmod>2020-02-26</lastmod>
+     <lastmod>2020-02-27</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/CTF-Reverse/introduction/</loc>
-     <lastmod>2020-02-26</lastmod>
+     <lastmod>2020-02-27</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/CTF-Crypto/introduction/</loc>
-     <lastmod>2020-02-26</lastmod>
+     <lastmod>2020-02-27</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Papers/introduction/</loc>
-     <lastmod>2020-02-26</lastmod>
+     <lastmod>2020-02-27</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/CVE/introduction/</loc>
-     <lastmod>2020-02-26</lastmod>
+     <lastmod>2020-02-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>http://wiki.hnusec.group/Links/introduction/</loc>
+     <lastmod>2020-02-27</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/F%26Q/introduction/</loc>
-     <lastmod>2020-02-26</lastmod>
+     <lastmod>2020-02-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

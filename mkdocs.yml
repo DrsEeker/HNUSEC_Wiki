@@ -19,6 +19,9 @@ nav:
         - About us: Introduction/about_us.md
     - Course:
         - Introduction: Course/introduction.md
+        - Computer Network:
+            - Resource: Course/ComputerNetwork/resource.md
+            - Tools: Course/ComputerNetwork/tools.md
     - CTF-Misc:
         - Introduction: CTF-Misc/introduction.md
     - CTF-Web:
@@ -35,6 +38,7 @@ nav:
         - Introduction: CVE/introduction.md
     - Links:
         - Introduction: Links/introduction.md
+        - OperatingSystem: Links/OperatingSystem/content.md
     - F&Q:
         - Introduction: F&Q/introduction.md
 

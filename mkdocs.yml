@@ -38,7 +38,10 @@ nav:
         - Introduction: CVE/introduction.md
     - Links:
         - Introduction: Links/introduction.md
-        - OperatingSystem: Links/OperatingSystem/content.md
+        - Tools: Links/tools.md
+        - CTF: Links/CTF/study.md
+        - OperatingSystem: 
+            - MACOS: Links/OperatingSystem/content.md
     - F&Q:
         - Introduction: F&Q/introduction.md
 

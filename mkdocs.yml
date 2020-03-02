@@ -20,6 +20,8 @@ nav:
     - Course:
         - Introduction: Course/introduction.md
         - Computer Network:
+            - Protocol: 
+                - ICMP: Course/ComputerNetwork/Protocol/icmp.md
             - Resource: Course/ComputerNetwork/resource.md
             - Tools: Course/ComputerNetwork/tools.md
     - CTF-Misc:

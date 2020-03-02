@@ -7,3 +7,5 @@
 3. [在线编码转换](https://tool.oschina.net/encode?type=4)
 
 4. [图片/base64转换](https://tool.oschina.net/encrypt?type=4)
+
+5. [Online Domain Tool](http://online-domain-tools.com/)

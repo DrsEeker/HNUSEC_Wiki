@@ -21,13 +21,15 @@ nav:
         - Introduction: Course/introduction.md
         - Computer Network:
             - Protocol: 
-                - ICMP: Course/ComputerNetwork/Protocol/icmp.md
-            - Resource: Course/ComputerNetwork/resource.md
-            - Tools: Course/ComputerNetwork/tools.md
+                - ICMP: Course/Computer Network/Protocol/icmp.md
+            - Resource: Course/Computer Network/resource.md
+            - Tools: Course/Computer Network/tools.md
     - CTF-Misc:
         - Introduction: CTF-Misc/introduction.md
     - CTF-Web:
         - Introduction: CTF-Web/introduction.md
+        - SQL Injection:
+            - No Column Injection & Bypass Information_schema: CTF-Web/SQL Injection/NoColumnInjection&BypassInformation_schema.md
     - CTF-Pwn:
         - Introduction: CTF-Pwn/introduction.md
     - CTF-Reverse:
@@ -42,8 +44,8 @@ nav:
         - Introduction: Links/introduction.md
         - Tools: Links/tools.md
         - CTF: Links/CTF/study.md
-        - OperatingSystem: 
-            - MACOS: Links/OperatingSystem/content.md
+        - Operating System: 
+            - MACOS: Links/Operating System/content.md
     - F&Q:
         - Introduction: F&Q/introduction.md
 

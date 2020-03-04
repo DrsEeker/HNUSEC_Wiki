@@ -1,4 +1,4 @@
-## ICMP协议
+> 本文作者@zww
 
 ICMP（Internet Control Message Protocol）Internet控制报文协议
 
@@ -115,4 +115,6 @@ traceroute -P icmp xiaolab.net
 这一次使用的就是icmp作为请求数据包，类型为Type 8 (Echo (ping) request)，也就是使用ping工具发送的数据包了
 其余的原理则与UDP相同
 
-[参考链接](https://www.jianshu.com/p/75a5822d0eec)
+## 参考链接
+
+* https://www.jianshu.com/p/75a5822d0eec

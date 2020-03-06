@@ -15,7 +15,7 @@ ICMP（Internet Control Message Protocol）Internet控制报文协议
 ### ICMP报文格式
 
 **ICMP报文头格式**
-![](img/1.png)
+![](img/icmp/1.png)
 
 **ICMP报文数据段**
 > ICMP error messages contain a data section that includes a copy of the entire IPv4 header, plus at least the first eight bytes of data from the IPv4 packet that caused the error message. The maximum length of ICMP error messages is 576 bytes. This data is used by the host to match the message to the appropriate process. If a higher level protocol uses port numbers, they are assumed to be in the first eight bytes of the original datagram's data.
@@ -25,12 +25,12 @@ ICMP（Internet Control Message Protocol）Internet控制报文协议
 ICMP报文的数据段包括一整个IPv4头的内容，并加上最少头八个字节的IPv4数据包内造成错误信息的数据
 
 **ICMP类型**
-![](img/10.png)
+![](img/icmp/10.png)
 这边主要可以关注一下Type 0, Type 8, Type 11这三种类型的ICMP报文，下面会提及到
 
 ### IPv4报文格式
 
-![](img/2.png)
+![](img/icmp/2.png)
 
 这里着重介绍一下TTL（Time-to-live)，它指定了数据包最多能经过几次路由器
 从我们源主机发出去的数据包在到达目的主机的路上要经过许多个路由器的转发，在发送数据包的时候源主机会设置一个TTL的值，每经过一个路由器TTL就会被减去一，当TTL为0的时候该数据包会被直接丢弃（不再继续转发），并发送一个超时ICMP报文给源主机，这也就是Traceroute的原理
@@ -39,12 +39,12 @@ ICMP报文的数据段包括一整个IPv4头的内容，并加上最少头八个
 
 这里选用Traceroute中ICMP回复包作为例子进行分析
 
-![](img/3.png)
+![](img/icmp/3.png)
 
 可以看到IPv4数据报分为Header和Data两个段，Header依照IPv4的格式存储IPv4的各种参数，Data则存储ICMP的整个报文数据
 接下来我们看一下IPv4 Data段
 
-![](img/4.png)
+![](img/icmp/4.png)
 
 可以看到ICMP全部的报文是包裹在IPv4 Data内的，并且ICMP报文的Header中标明了ICMP的消息类型(Type和Code)，Data则表明了引起错误的IPv4数据包内的数据
 
@@ -70,7 +70,7 @@ traceroute会选择一个大于30000的端口作为目的ip的接收端口进行
 
 流程图: 
 
-![](img/5.png)
+![](img/icmp/5.png)
 
 * 客户端发送一个TTL为1，端口号大于30000的UDP数据包，到达第一站路由器之后TTL被减去1，返回了一个超时的ICMP数据包，客户端得到第一跳路由器的地址
 * 客户端发送一个TTL为2的数据包，在第二跳的路由器节点处超时，得到第二跳路由器的地址
@@ -79,10 +79,10 @@ traceroute会选择一个大于30000的端口作为目的ip的接收端口进行
 因为traceroute默认的发包数为3，所以每个TTL时长都会发送三次，接收回来的ICMP数据包也为三个（如果超过了一定的时长就认为是不可达了，用 **\*** 表示），也就是为什么每个ip地址后都会跟着三个时间了
 
 **traceroute:**
-![](img/6.png)
+![](img/icmp/6.png)
 
 **wireshark:**
-![](img/7.png)
+![](img/icmp/7.png)
 
 通过箭头颜色的指示可以看到
 1. 每次都会有三个相同地址的ip返回给我本机的ip:192.168.3.83，也就印证了traceroute默认每个TTL都会发包3次
@@ -100,18 +100,18 @@ traceroute会选择一个大于30000的端口作为目的ip的接收端口进行
 
 流程图:
 
-![](img/11.png)
+![](img/icmp/11.png)
 
 使用icmp协议
 ``` sh
 traceroute -P icmp xiaolab.net
 ```
 
-![](img/8.png)
+![](img/icmp/8.png)
 可以看到，虽然收到了两跳的超时，但是第21跳就可以收到目的地发过来的ICMP超时错误了
 
 **wireshark**
-![](img/9.png)
+![](img/icmp/9.png)
 这一次使用的就是icmp作为请求数据包，类型为Type 8 (Echo (ping) request)，也就是使用ping工具发送的数据包了
 其余的原理则与UDP相同
 

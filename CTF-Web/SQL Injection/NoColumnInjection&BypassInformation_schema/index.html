@@ -1333,12 +1333,29 @@ payload:
 但是在这个情况下，明明ascii(G)是小于ascii(f)，为什么会返回1呢</p>
 <p>这是因为 <strong>mysql默认是不区分大小写的</strong> ，所以说实际上比较的是ascii(g)与ascii(f)，当然前者大，返回1</p>
 <p>如果我们要比较ascii码的大小，那我们就需要使用 <strong>二进制字符串</strong> 进行比较</p>
-<p>具体来说，mysql可以使用三类函数进行类型的转换
-| Name | Description |
-| ------ | ------ |
-| BINARY | Cast a string to a binary string |
-| CAST() | Cast a value as a certain type |
-| CONVERT() | Cast a value as a certain type |</p>
+<p>具体来说，mysql可以使用三类函数进行类型的转换</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BINARY</td>
+<td>Cast a string to a binary string</td>
+</tr>
+<tr>
+<td>CAST()</td>
+<td>Cast a value as a certain type</td>
+</tr>
+<tr>
+<td>CONVERT()</td>
+<td>Cast a value as a certain type</td>
+</tr>
+</tbody>
+</table>
 <p>所以我们只需要使用函数，进行转换类型即可实现比较 </p>
 <p>payload:
 <div class="highlight"><pre><span></span><code><span class="o">##</span> <span class="err">使用</span><span class="nb">binary</span>

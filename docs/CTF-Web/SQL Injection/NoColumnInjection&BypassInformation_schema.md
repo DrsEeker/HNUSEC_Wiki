@@ -166,6 +166,7 @@ mysql> select ((select 1,'G') > (select * from flag limit 1));
 如果我们要比较ascii码的大小，那我们就需要使用 **二进制字符串** 进行比较
 
 具体来说，mysql可以使用三类函数进行类型的转换
+
 | Name | Description |
 | ------ | ------ |
 | BINARY | Cast a string to a binary string |

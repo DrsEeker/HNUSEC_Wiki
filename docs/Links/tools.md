@@ -11,3 +11,7 @@
 5. [Online Domain Tool](http://online-domain-tools.com/)
 
 6. [CODEPEN 前端利器](https://codepen.io/alphardex)
+
+7. [腾讯云 图片转文字](https://cloud.tencent.com/act/pro/AI)
+
+8. [云悉web指纹识别](http://www.yunsee.cn)

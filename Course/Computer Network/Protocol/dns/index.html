@@ -542,14 +542,6 @@
       
         <li class="md-nav__item">
   <a href="#dns" class="md-nav__link">
-    DNS
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#dns_1" class="md-nav__link">
     DNS报文
   </a>
   
@@ -557,7 +549,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#dns_2" class="md-nav__link">
+  <a href="#dns_1" class="md-nav__link">
     DNS报文格式
   </a>
   
@@ -567,15 +559,15 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#dns-types" class="md-nav__link">
     DNS Types
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#wireshark" class="md-nav__link">
     Wireshark抓包
   </a>
@@ -584,14 +576,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#dns_3" class="md-nav__link">
+  <a href="#dns_2" class="md-nav__link">
     DNS查询报文
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#dns_4" class="md-nav__link">
+  <a href="#dns_3" class="md-nav__link">
     DNS回答报文
   </a>
   
@@ -601,9 +593,11 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    参考链接
+  </a>
   
 </li>
       
@@ -1109,14 +1103,6 @@
       
         <li class="md-nav__item">
   <a href="#dns" class="md-nav__link">
-    DNS
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#dns_1" class="md-nav__link">
     DNS报文
   </a>
   
@@ -1124,7 +1110,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#dns_2" class="md-nav__link">
+  <a href="#dns_1" class="md-nav__link">
     DNS报文格式
   </a>
   
@@ -1134,15 +1120,15 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#dns-types" class="md-nav__link">
     DNS Types
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#wireshark" class="md-nav__link">
     Wireshark抓包
   </a>
@@ -1151,14 +1137,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#dns_3" class="md-nav__link">
+  <a href="#dns_2" class="md-nav__link">
     DNS查询报文
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#dns_4" class="md-nav__link">
+  <a href="#dns_3" class="md-nav__link">
     DNS回答报文
   </a>
   
@@ -1168,9 +1154,11 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    参考链接
+  </a>
   
 </li>
       
@@ -1195,8 +1183,10 @@
                 
                   <h1>DNS</h1>
                 
-                <h2 id="dns">DNS</h2>
-<p>DNS(DomainNameSystem) 域名系统（服务）协议</p>
+                <blockquote>
+<p>本文作者 [@zww](<a href="http://www.wenweizeng.com/">http://www.wenweizeng.com/</a>）</p>
+</blockquote>
+<p>DNS（DomainNameSystem）域名系统（服务）协议</p>
 <p>它是应用层协议，主要用于域名与IP地址的相互转换，以及控制因特网的电子邮件的发送</p>
 <p>因为在单一DNS服务器上运行集中式数据库完全没有可扩展能力。因此，DNS采用了分布式的设计方案</p>
 <p>DNS部分层级结构
@@ -1214,8 +1204,8 @@
 <p>权威 DNS 服务器 </p>
 </li>
 </ul>
-<h3 id="dns_1">DNS报文</h3>
-<h4 id="dns_2">DNS报文格式</h4>
+<h3 id="dns">DNS报文</h3>
+<h4 id="dns_1">DNS报文格式</h4>
 <p><img alt="" src="../img/dns/2.png" /></p>
 <p>比较重要的几个字段：</p>
 <ul>
@@ -1289,14 +1279,14 @@ ipconfig <span class="se">\a</span>ll
 wireshark 过滤规则
 <div class="highlight"><pre><span></span><code>ip.addr <span class="o">==</span> Your IP <span class="o">&amp;&amp;</span> dns
 </code></pre></div></p>
-<h4 id="dns_3">DNS查询报文</h4>
+<h4 id="dns_2">DNS查询报文</h4>
 <p><img alt="" src="../img/dns/3.png" /></p>
 <ol>
 <li>DNS协议运行在UDP之上，使用53号端口</li>
 <li>查询报文由本机192.168.3.89发送给本地dns服务器192.168.3.1</li>
 <li>DNS查询报文中有Transaction ID：0x511e，Queries表明要查询的域名hnusec.group（Type A）</li>
 </ol>
-<h4 id="dns_4">DNS回答报文</h4>
+<h4 id="dns_3">DNS回答报文</h4>
 <p><img alt="" src="../img/dns/4.png" /></p>
 <ol>
 <li>Queries的内容与对应的查询报文中Queries是相同的（例如Transaction ID同为0x511e）</li>
@@ -1314,6 +1304,10 @@ nslookup www.aiit.or.kr bitsy.mit.edu
 可以看到，当指定使用bitsy.mit.edu的dns服务器（18.0.72.3）后，nslookup首先会去本地dns服务器中寻找是否有bitsy.mit.edu的记录如果没有，则首先会发一条对其的dns请求</p>
 <p>接着使用获取到的bitsy.mit.edu的ip地址作为dns服务器进行查询（第42条已经将18.0.72.3作为目的地）</p>
 <p>最后返回www.aiit.or.kr对于的ip地址</p>
+<h2 id="_1">参考链接</h2>
+<ul>
+<li>Computer Networking - A Top Down Approach, 7<sup>th</sup>, converted</li>
+</ul>
                 
                   
                 

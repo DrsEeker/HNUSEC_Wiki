@@ -622,7 +622,7 @@
       
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
-    参考链接
+    参考书目及链接
   </a>
   
 </li>
@@ -1185,7 +1185,7 @@
       
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
-    参考链接
+    参考书目及链接
   </a>
   
 </li>
@@ -1271,9 +1271,15 @@ traceroute会选择一个大于30000的端口作为目的ip的接收端口进行
 <img alt="" src="../img/icmp/6.png" /></p>
 <p><strong>wireshark:</strong>
 <img alt="" src="../img/icmp/7.png" /></p>
-<p>通过箭头颜色的指示可以看到
-1. 每次都会有三个相同地址的ip返回给我本机的ip:192.168.3.83，也就印证了traceroute默认每个TTL都会发包3次
-2. TTL每次都会递增1</p>
+<p>通过箭头颜色的指示可以看到</p>
+<ul>
+<li>
+<p>每次都会有三个相同地址的ip返回给我本机的ip:192.168.3.83，也就印证了traceroute默认每个TTL都会发包3次</p>
+</li>
+<li>
+<p>TTL每次都会递增1</p>
+</li>
+</ul>
 <p>但是在traceroute的过程中，有可能遇到了traceroute不能到达目的地的问题，这里可以考虑一个情况是大多数服务器都不会提供UDP服务，或者是被防火墙给挡掉了，所以收不到服务器的任何返回，导致超时，TTL继续增加</p>
 <p>当然我们有别的方法可以试图去解决这个问题</p>
 <h4 id="icmp_1">基于ICMP</h4>
@@ -1290,9 +1296,14 @@ traceroute会选择一个大于30000的端口作为目的ip的接收端口进行
 <img alt="" src="../img/icmp/9.png" />
 这一次使用的就是icmp作为请求数据包，类型为Type 8 (Echo (ping) request)，也就是使用ping工具发送的数据包了
 其余的原理则与UDP相同</p>
-<h2 id="_3">参考链接</h2>
+<h2 id="_3">参考书目及链接</h2>
 <ul>
-<li><a href="https://www.jianshu.com/p/75a5822d0eec">https://www.jianshu.com/p/75a5822d0eec</a></li>
+<li>
+<p>Computer Networking - A Top Down Approach, 7<sup>th</sup>, converted</p>
+</li>
+<li>
+<p><a href="https://www.jianshu.com/p/75a5822d0eec">https://www.jianshu.com/p/75a5822d0eec</a></p>
+</li>
 </ul>
                 
                   

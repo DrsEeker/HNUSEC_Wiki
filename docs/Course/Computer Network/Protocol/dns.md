@@ -1,6 +1,6 @@
-## DNS
+> 本文作者 [@zww](http://www.wenweizeng.com/）
 
-DNS(DomainNameSystem) 域名系统（服务）协议
+DNS（DomainNameSystem）域名系统（服务）协议
 
 它是应用层协议，主要用于域名与IP地址的相互转换，以及控制因特网的电子邮件的发送
 
@@ -121,3 +121,7 @@ nslookup www.aiit.or.kr bitsy.mit.edu
 接着使用获取到的bitsy.mit.edu的ip地址作为dns服务器进行查询（第42条已经将18.0.72.3作为目的地）
 
 最后返回www.aiit.or.kr对于的ip地址
+
+## 参考链接
+
+* Computer Networking - A Top Down Approach, 7th, converted

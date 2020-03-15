@@ -85,8 +85,10 @@ traceroute会选择一个大于30000的端口作为目的ip的接收端口进行
 ![](img/icmp/7.png)
 
 通过箭头颜色的指示可以看到
-1. 每次都会有三个相同地址的ip返回给我本机的ip:192.168.3.83，也就印证了traceroute默认每个TTL都会发包3次
-2. TTL每次都会递增1
+
+* 每次都会有三个相同地址的ip返回给我本机的ip:192.168.3.83，也就印证了traceroute默认每个TTL都会发包3次
+
+* TTL每次都会递增1
 
 但是在traceroute的过程中，有可能遇到了traceroute不能到达目的地的问题，这里可以考虑一个情况是大多数服务器都不会提供UDP服务，或者是被防火墙给挡掉了，所以收不到服务器的任何返回，导致超时，TTL继续增加
 
@@ -115,6 +117,8 @@ traceroute -P icmp xiaolab.net
 这一次使用的就是icmp作为请求数据包，类型为Type 8 (Echo (ping) request)，也就是使用ping工具发送的数据包了
 其余的原理则与UDP相同
 
-## 参考链接
+## 参考书目及链接
 
+* Computer Networking - A Top Down Approach, 7th, converted
+  
 * https://www.jianshu.com/p/75a5822d0eec

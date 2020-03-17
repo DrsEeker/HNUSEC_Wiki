@@ -110,6 +110,29 @@ ip.addr == Your IP && dns
 与域名解析中分配的DNS服务器是一致的
 4. Additional records会返回一些帮助信息，例如这里就返回了这些权威DNS服务器对应的IP地址（一个域名对应多个地址，参考DNS负载均衡）
 
+在查看Answers中Name对应的16进制数据时，发现并不是hnusec.group，而是0xc00c，这是为什么呢
+![](img/dns/7.png)
+[RFC 1035](https://tools.ietf.org/html/rfc1035)中的4.1.4.Message compression则给出了这个问题的答案
+
+>In order to reduce the size of messages, the domain system utilizes a compression scheme which eliminates the repetition of domain names in a message.  In this scheme, an entire domain name or a list of labels at the end of a domain name is replaced with a pointer to a prior occurance of the same name.
+
+这里使用的是DNS协议消息压缩技术，使用偏移的指针来代替重复的字符串，格式如下
+```
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+| 1  1|                OFFSET                   |
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+```
+
+最开始的两个bit必须都为1，紧接着14bit表示字符串在DNS报文中的偏移量（在这里就是"hnusec.group"）
+
+由于DNS应答包中的Answers段出现的域名往往在Queries中已经出现，因此后面只需使用其偏移量表示即可。显然，Queries中的域名出现的频率最高，而其中第一个出现的域名偏移量固定为12字节（00001100），加上最开始的两个1，那二进制就是
+```
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+| 1 1 | 0  0  0  0  0  0  0  0  0  0  1  1  0  0|
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+```
+即0xC00C。以此类推，因最开始出现的字符串都比较靠前，因此指针大多以“C0”开头
+
 如果需要指定dns-server，则可以使用下面的命令形式
 ``` sh
 # nslookup domain [dns-server]
@@ -125,3 +148,5 @@ nslookup www.aiit.or.kr bitsy.mit.edu
 ## 参考链接
 
 * Computer Networking - A Top Down Approach, 7th, converted
+
+* https://blog.csdn.net/xth21/article/details/104469241

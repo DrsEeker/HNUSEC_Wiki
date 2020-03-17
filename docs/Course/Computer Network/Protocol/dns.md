@@ -19,9 +19,9 @@ DNS
 
 - 权威 DNS 服务器 
 
-### DNS报文
+## DNS报文
 
-#### DNS报文格式
+### DNS报文格式
 
 ![](img/dns/2.png)
 
@@ -45,7 +45,7 @@ DNS
 
 DNS只有查询和回答报文两种，并且他们拥有 **相同的格式** 
 
-### DNS Types
+## DNS Types
 共同实现 DNS 分布式数据库的所有DNS服务器存储了资源记录 (Resource Record , RR)
 资源记录是一个包含了下列字段的 4 元组:
 (Name, Value, Type, TTL) 
@@ -59,7 +59,7 @@ DNS只有查询和回答报文两种，并且他们拥有 **相同的格式**
 - 如果 **Type=MX** ，则Value是个别名为Name的邮件服务器的规范主机名。举例来说，(foo.com,mail.foo.com,MX)就是一条MX记录。MX记录允许邮件服务器主机名具有简单的别名。值得注意的是，通过使用MX记录，一个公司的邮件服务器和其他服务器(如它的Web服务器)可以使用相同的别名。为了获得邮件服务器的规范主机名，DNS客户应当请求一条MX记录;而为了获得其他服务器的规范主机名，DNS客户应当请求CNAME记录
 
 
-### Wireshark抓包
+## Wireshark抓包
 
 在抓取dns报文时，我们首先要清理一下本地的dns缓存
 ``` sh
@@ -91,7 +91,7 @@ wireshark 过滤规则
 ip.addr == Your IP && dns
 ```
 
-#### DNS查询报文
+### DNS查询报文
 
 ![](img/dns/3.png)
 
@@ -99,7 +99,7 @@ ip.addr == Your IP && dns
 2. 查询报文由本机192.168.3.89发送给本地dns服务器192.168.3.1
 3. DNS查询报文中有Transaction ID：0x511e，Queries表明要查询的域名hnusec.group（Type A）
 
-#### DNS回答报文
+### DNS回答报文
 
 ![](img/dns/4.png)
 

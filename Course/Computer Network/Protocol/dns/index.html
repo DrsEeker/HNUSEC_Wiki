@@ -1204,8 +1204,8 @@
 <p>权威 DNS 服务器 </p>
 </li>
 </ul>
-<h3 id="dns">DNS报文</h3>
-<h4 id="dns_1">DNS报文格式</h4>
+<h2 id="dns">DNS报文</h2>
+<h3 id="dns_1">DNS报文格式</h3>
 <p><img alt="" src="../img/dns/2.png" /></p>
 <p>比较重要的几个字段：</p>
 <ul>
@@ -1237,7 +1237,7 @@
 </li>
 </ul>
 <p>DNS只有查询和回答报文两种，并且他们拥有 <strong>相同的格式</strong> </p>
-<h3 id="dns-types">DNS Types</h3>
+<h2 id="dns-types">DNS Types</h2>
 <p>共同实现 DNS 分布式数据库的所有DNS服务器存储了资源记录 (Resource Record , RR)
 资源记录是一个包含了下列字段的 4 元组:
 (Name, Value, Type, TTL) </p>
@@ -1255,7 +1255,7 @@
 <p>如果 <strong>Type=MX</strong> ，则Value是个别名为Name的邮件服务器的规范主机名。举例来说，(foo.com,mail.foo.com,MX)就是一条MX记录。MX记录允许邮件服务器主机名具有简单的别名。值得注意的是，通过使用MX记录，一个公司的邮件服务器和其他服务器(如它的Web服务器)可以使用相同的别名。为了获得邮件服务器的规范主机名，DNS客户应当请求一条MX记录;而为了获得其他服务器的规范主机名，DNS客户应当请求CNAME记录</p>
 </li>
 </ul>
-<h3 id="wireshark">Wireshark抓包</h3>
+<h2 id="wireshark">Wireshark抓包</h2>
 <p>在抓取dns报文时，我们首先要清理一下本地的dns缓存
 <div class="highlight"><pre><span></span><code><span class="c1"># mac</span>
 sudo killall -HUP mDNSResponder<span class="p">;</span> sleep <span class="m">2</span><span class="p">;</span> <span class="nb">echo</span> macOS DNS Cache Reset <span class="p">|</span> say
@@ -1279,14 +1279,14 @@ ipconfig <span class="se">\a</span>ll
 wireshark 过滤规则
 <div class="highlight"><pre><span></span><code>ip.addr <span class="o">==</span> Your IP <span class="o">&amp;&amp;</span> dns
 </code></pre></div></p>
-<h4 id="dns_2">DNS查询报文</h4>
+<h3 id="dns_2">DNS查询报文</h3>
 <p><img alt="" src="../img/dns/3.png" /></p>
 <ol>
 <li>DNS协议运行在UDP之上，使用53号端口</li>
 <li>查询报文由本机192.168.3.89发送给本地dns服务器192.168.3.1</li>
 <li>DNS查询报文中有Transaction ID：0x511e，Queries表明要查询的域名hnusec.group（Type A）</li>
 </ol>
-<h4 id="dns_3">DNS回答报文</h4>
+<h3 id="dns_3">DNS回答报文</h3>
 <p><img alt="" src="../img/dns/4.png" /></p>
 <ol>
 <li>Queries的内容与对应的查询报文中Queries是相同的（例如Transaction ID同为0x511e）</li>

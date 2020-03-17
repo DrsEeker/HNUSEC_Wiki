@@ -1296,6 +1296,24 @@ wireshark 过滤规则
 与域名解析中分配的DNS服务器是一致的</li>
 <li>Additional records会返回一些帮助信息，例如这里就返回了这些权威DNS服务器对应的IP地址（一个域名对应多个地址，参考DNS负载均衡）</li>
 </ol>
+<p>在查看Answers中Name对应的16进制数据时，发现并不是hnusec.group，而是0xc00c，这是为什么呢
+<img alt="" src="../img/dns/7.png" />
+<a href="https://tools.ietf.org/html/rfc1035">RFC 1035</a>中的4.1.4.Message compression则给出了这个问题的答案</p>
+<blockquote>
+<p>In order to reduce the size of messages, the domain system utilizes a compression scheme which eliminates the repetition of domain names in a message.  In this scheme, an entire domain name or a list of labels at the end of a domain name is replaced with a pointer to a prior occurance of the same name.</p>
+</blockquote>
+<p>这里使用的是DNS协议消息压缩技术，使用偏移的指针来代替重复的字符串，格式如下
+<div class="highlight"><pre><span></span><code>+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+| 1  1|                OFFSET                   |
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+</code></pre></div></p>
+<p>最开始的两个bit必须都为1，紧接着14bit表示字符串在DNS报文中的偏移量（在这里就是"hnusec.group"）</p>
+<p>由于DNS应答包中的Answers段出现的域名往往在Queries中已经出现，因此后面只需使用其偏移量表示即可。显然，Queries中的域名出现的频率最高，而其中第一个出现的域名偏移量固定为12字节（00001100），加上最开始的两个1，那二进制就是
+<div class="highlight"><pre><span></span><code>+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+| 1 1 | 0  0  0  0  0  0  0  0  0  0  1  1  0  0|
++--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+</code></pre></div>
+即0xC00C。以此类推，因最开始出现的字符串都比较靠前，因此指针大多以“C0”开头</p>
 <p>如果需要指定dns-server，则可以使用下面的命令形式
 <div class="highlight"><pre><span></span><code><span class="c1"># nslookup domain [dns-server]</span>
 nslookup www.aiit.or.kr bitsy.mit.edu
@@ -1306,7 +1324,12 @@ nslookup www.aiit.or.kr bitsy.mit.edu
 <p>最后返回www.aiit.or.kr对于的ip地址</p>
 <h2 id="_1">参考链接</h2>
 <ul>
-<li>Computer Networking - A Top Down Approach, 7<sup>th</sup>, converted</li>
+<li>
+<p>Computer Networking - A Top Down Approach, 7<sup>th</sup>, converted</p>
+</li>
+<li>
+<p><a href="https://blog.csdn.net/xth21/article/details/104469241">https://blog.csdn.net/xth21/article/details/104469241</a></p>
+</li>
 </ul>
                 
                   

@@ -1,4 +1,4 @@
-> 本文作者 [@zww](http://www.wenweizeng.com/）
+> 本文作者 [@zww](http://www.wenweizeng.com/)
 
 DNS（DomainNameSystem）域名系统（服务）协议
 

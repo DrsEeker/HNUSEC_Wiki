@@ -12,7 +12,7 @@ ICMP（Internet Control Message Protocol）Internet控制报文协议
 
 从上文可以看出ICMP是在IP协议之上的，也就是说ICMP是被IP报文包裹的，就跟UDP或者TCP报文一样
 
-### ICMP报文格式
+## ICMP报文格式
 
 **ICMP报文头格式**
 ![](img/icmp/1.png)
@@ -28,14 +28,14 @@ ICMP报文的数据段包括一整个IPv4头的内容，并加上最少头八个
 ![](img/icmp/10.png)
 这边主要可以关注一下Type 0, Type 8, Type 11这三种类型的ICMP报文，下面会提及到
 
-### IPv4报文格式
+## IPv4报文格式
 
 ![](img/icmp/2.png)
 
 这里着重介绍一下TTL（Time-to-live)，它指定了数据包最多能经过几次路由器
 从我们源主机发出去的数据包在到达目的主机的路上要经过许多个路由器的转发，在发送数据包的时候源主机会设置一个TTL的值，每经过一个路由器TTL就会被减去一，当TTL为0的时候该数据包会被直接丢弃（不再继续转发），并发送一个超时ICMP报文给源主机，这也就是Traceroute的原理
 
-### Wireshark抓包
+## Wireshark抓包
 
 这里选用Traceroute中ICMP回复包作为例子进行分析
 

@@ -22,6 +22,7 @@ nav:
         - Computer Network:
             - Protocol: 
                 - DNS: Course/Computer Network/Protocol/dns.md
+                - DHCP: Course/Computer Network/Protocol/dhcp.md
                 - ICMP: Course/Computer Network/Protocol/icmp.md
             - Resource: Course/Computer Network/resource.md
             - Tools: Course/Computer Network/tools.md

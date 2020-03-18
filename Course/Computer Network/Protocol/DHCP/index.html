@@ -13,7 +13,7 @@
         <meta name="description" content="HNUSEC Wiki">
       
       
-        <link rel="canonical" href="http://wiki.hnusec.group/Course/Computer%20Network/Protocol/icmp/">
+        <link rel="canonical" href="http://wiki.hnusec.group/Course/Computer%20Network/Protocol/DHCP/">
       
       
         <meta name="author" content="HNUSEC">
@@ -42,7 +42,7 @@
     
     
       
-        <title>ICMP - HNUSEC Wiki</title>
+        <title>DHCP - HNUSEC Wiki</title>
       
     
     
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#icmp" tabindex="0" class="md-skip">
+      <a href="#dhcp" tabindex="0" class="md-skip">
         跳转至
       </a>
     
@@ -117,7 +117,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                ICMP
+                DHCP
               
             </span>
           
@@ -185,9 +185,7 @@
       
         
 
-  
-
-<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+<nav class="md-tabs" data-md-component="tabs">
   <div class="md-tabs__inner md-grid">
     <ul class="md-tabs__list">
       
@@ -209,7 +207,7 @@
   
     <li class="md-tabs__item">
       
-        <a href="../../../introduction/" class="md-tabs__link md-tabs__link--active">
+        <a href="../../../introduction/" class="md-tabs__link">
           Course
         </a>
       
@@ -441,12 +439,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
       Course
@@ -474,12 +470,10 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-2" type="checkbox" id="nav-2-2" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-2" type="checkbox" id="nav-2-2">
     
     <label class="md-nav__link" for="nav-2-2">
       Computer Network
@@ -495,12 +489,10 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-2-1" type="checkbox" id="nav-2-2-1" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-2-1" type="checkbox" id="nav-2-2-1">
     
     <label class="md-nav__link" for="nav-2-2-1">
       Protocol
@@ -528,113 +520,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        ICMP
-      </label>
-    
-    <a href="./" title="ICMP" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../icmp/" title="ICMP" class="md-nav__link">
       ICMP
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">目录</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#icmp" class="md-nav__link">
-    ICMP报文格式
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ipv4" class="md-nav__link">
-    IPv4报文格式
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#wireshark" class="md-nav__link">
-    Wireshark抓包
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#traceroute" class="md-nav__link">
-    Traceroute
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    命令及参数
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    原理
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#udp" class="md-nav__link">
-    基于UDP
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#icmp_1" class="md-nav__link">
-    基于ICMP
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    参考书目及链接
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -1116,15 +1006,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#icmp" class="md-nav__link">
-    ICMP报文格式
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ipv4" class="md-nav__link">
-    IPv4报文格式
+  <a href="#dhcp" class="md-nav__link">
+    DHCP
   </a>
   
 </li>
@@ -1134,58 +1017,59 @@
     Wireshark抓包
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#traceroute" class="md-nav__link">
-    Traceroute
-  </a>
-  
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#dhcp-discover" class="md-nav__link">
+    DHCP Discover
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dhcp-offer" class="md-nav__link">
+    DHCP Offer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dhcp-request" class="md-nav__link">
+    DHCP Request
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dhcp-ack" class="md-nav__link">
+    DHCP ACK
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dhcp-arp-probe" class="md-nav__link">
+    DHCP ARP probe
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dhcp-release" class="md-nav__link">
+    DHCP Release
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
-    命令及参数
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    原理
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#udp" class="md-nav__link">
-    基于UDP
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#icmp_1" class="md-nav__link">
-    基于ICMP
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    参考书目及链接
+    参考链接
   </a>
   
 </li>
@@ -1206,103 +1090,100 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/DrsEeker/HNUSEC_Wiki/edit/master/docs/Course/Computer Network/Protocol/icmp.md" title="编辑此页" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/DrsEeker/HNUSEC_Wiki/edit/master/docs/Course/Computer Network/Protocol/DHCP.md" title="编辑此页" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                  <h1>ICMP</h1>
+                  <h1>DHCP</h1>
                 
-                <blockquote>
-<p>本文作者 <a href="http://www.wenweizeng.com/2020/03/04/icmp/">@zww</a></p>
-</blockquote>
-<p>ICMP（Internet Control Message Protocol）Internet控制报文协议</p>
-<p>它是TCP/IP协议簇的一个子协议，用于在IP主机、路由器之间传递控制消息（网络通不通、主机是否可达、路由是否可用等网络本身的消息）</p>
-<p>这些控制消息虽然并不传输用户数据，但是对于用户数据的传递起着重要的作用</p>
-<blockquote>
-<p>ICMP is often considered part of IP, but architecturally it lies just above IP, as ICMP messages are carried inside IP datagrams. That is, ICMP messages are carried as IP payload, just as TCP or UDP segments are carried as IP payload. Similarly, when a host receives an IP datagram with ICMP specified as the upper-layer protocol (an upper-layer protocol number of 1), it demultiplexes the datagram’s contents to ICMP, just as it would demultiplex a datagram’s content to TCP or UDP.</p>
-<p>from Computer Networking - A Top Down Approach, 7<sup>th</sup>, converted</p>
-</blockquote>
-<p>从上文可以看出ICMP是在IP协议之上的，也就是说ICMP是被IP报文包裹的，就跟UDP或者TCP报文一样</p>
-<h2 id="icmp">ICMP报文格式</h2>
-<p><strong>ICMP报文头格式</strong>
-<img alt="" src="../img/icmp/1.png" /></p>
-<p><strong>ICMP报文数据段</strong></p>
-<blockquote>
-<p>ICMP error messages contain a data section that includes a copy of the entire IPv4 header, plus at least the first eight bytes of data from the IPv4 packet that caused the error message. The maximum length of ICMP error messages is 576 bytes. This data is used by the host to match the message to the appropriate process. If a higher level protocol uses port numbers, they are assumed to be in the first eight bytes of the original datagram's data.</p>
-<p>from Wikipedia</p>
-</blockquote>
-<p>ICMP报文的数据段包括一整个IPv4头的内容，并加上最少头八个字节的IPv4数据包内造成错误信息的数据</p>
-<p><strong>ICMP类型</strong>
-<img alt="" src="../img/icmp/10.png" />
-这边主要可以关注一下Type 0, Type 8, Type 11这三种类型的ICMP报文，下面会提及到</p>
-<h2 id="ipv4">IPv4报文格式</h2>
-<p><img alt="" src="../img/icmp/2.png" /></p>
-<p>这里着重介绍一下TTL（Time-to-live)，它指定了数据包最多能经过几次路由器
-从我们源主机发出去的数据包在到达目的主机的路上要经过许多个路由器的转发，在发送数据包的时候源主机会设置一个TTL的值，每经过一个路由器TTL就会被减去一，当TTL为0的时候该数据包会被直接丢弃（不再继续转发），并发送一个超时ICMP报文给源主机，这也就是Traceroute的原理</p>
+                <h2 id="dhcp">DHCP</h2>
+<p>DHCP(Dynamic Host Configuration Protocol) 动态主机配置协议</p>
+<p>DHCP协议是一个局域网的网络协议，指的是由服务器控制一段IP地址范围，客户机登录服务器时就可以自动获得服务器分配的IP地址和子网掩码等其他信息</p>
+<p>并且DHCP还是一个CS（客户端/服务端）协议。客户通常是新达到的主机，它要获得包括自身使用的IP地址在内的网络配置信息</p>
+<p>DHCP CS交互示意图
+<img alt="" src="../img/dhcp/1.png" /></p>
 <h2 id="wireshark">Wireshark抓包</h2>
-<p>这里选用Traceroute中ICMP回复包作为例子进行分析</p>
-<p><img alt="" src="../img/icmp/3.png" /></p>
-<p>可以看到IPv4数据报分为Header和Data两个段，Header依照IPv4的格式存储IPv4的各种参数，Data则存储ICMP的整个报文数据
-接下来我们看一下IPv4 Data段</p>
-<p><img alt="" src="../img/icmp/4.png" /></p>
-<p>可以看到ICMP全部的报文是包裹在IPv4 Data内的，并且ICMP报文的Header中标明了ICMP的消息类型(Type和Code)，Data则表明了引起错误的IPv4数据包内的数据</p>
-<h2 id="traceroute">Traceroute</h2>
-<h3 id="_1">命令及参数</h3>
-<div class="highlight"><pre><span></span><code>$ traceroute
-
-Version <span class="m">1</span>.4a12+Darwin
-Usage: traceroute <span class="o">[</span>-adDeFInrSvx<span class="o">]</span> <span class="o">[</span>-A as_server<span class="o">]</span> <span class="o">[</span>-f first_ttl<span class="o">]</span> <span class="o">[</span>-g gateway<span class="o">]</span> <span class="o">[</span>-i iface<span class="o">]</span>
-    <span class="o">[</span>-M first_ttl<span class="o">]</span> <span class="o">[</span>-m max_ttl<span class="o">]</span> <span class="o">[</span>-p port<span class="o">]</span> <span class="o">[</span>-P proto<span class="o">]</span> <span class="o">[</span>-q nqueries<span class="o">]</span> <span class="o">[</span>-s src_addr<span class="o">]</span>
-    <span class="o">[</span>-t tos<span class="o">]</span> <span class="o">[</span>-w waittime<span class="o">]</span> <span class="o">[</span>-z pausemsecs<span class="o">]</span> host <span class="o">[</span>packetlen<span class="o">]</span>
-</code></pre></div>
-
-<h3 id="_2">原理</h3>
-<h4 id="udp">基于UDP</h4>
-<p>如果tracereoute不指定参数，则默认使用的是UDP模式进行数据包的发送
-traceroute会选择一个大于30000的端口作为目的ip的接收端口进行发送，服务器在收到这个数据包的时候会返回一个端口不可达的ICMP错误信息，客户端通过判断收到的错误信息是TTL超时还是端口不可达（按照type）来判断数据包是否到达目标主机</p>
-<p>流程图: </p>
-<p><img alt="" src="../img/icmp/5.png" /></p>
-<ul>
-<li>客户端发送一个TTL为1，端口号大于30000的UDP数据包，到达第一站路由器之后TTL被减去1，返回了一个超时的ICMP数据包，客户端得到第一跳路由器的地址</li>
-<li>客户端发送一个TTL为2的数据包，在第二跳的路由器节点处超时，得到第二跳路由器的地址</li>
-<li>客户端发送一个TTL为3的数据包，数据包成功到达目标主机，返回一个端口不可达错误，traceroute结束</li>
-</ul>
-<p>因为traceroute默认的发包数为3，所以每个TTL时长都会发送三次，接收回来的ICMP数据包也为三个（如果超过了一定的时长就认为是不可达了，用 <strong>*</strong> 表示），也就是为什么每个ip地址后都会跟着三个时间了</p>
-<p><strong>traceroute:</strong>
-<img alt="" src="../img/icmp/6.png" /></p>
-<p><strong>wireshark:</strong>
-<img alt="" src="../img/icmp/7.png" /></p>
-<p>通过箭头颜色的指示可以看到</p>
-<ul>
-<li>
-<p>每次都会有三个相同地址的ip返回给我本机的ip:192.168.3.83，也就印证了traceroute默认每个TTL都会发包3次</p>
-</li>
-<li>
-<p>TTL每次都会递增1</p>
-</li>
-</ul>
-<p>但是在traceroute的过程中，有可能遇到了traceroute不能到达目的地的问题，这里可以考虑一个情况是大多数服务器都不会提供UDP服务，或者是被防火墙给挡掉了，所以收不到服务器的任何返回，导致超时，TTL继续增加</p>
-<p>当然我们有别的方法可以试图去解决这个问题</p>
-<h4 id="icmp_1">基于ICMP</h4>
-<p>回去看traceroute给我们的指南，可以看到一个-P参数，这个-P参数可以指定发送报文的协议</p>
-<p>因为当前的ip是可以ping的通的，所以可以尝试一下使用icmp协议（ping使用的就是icmp协议进行）</p>
-<p>流程图:</p>
-<p><img alt="" src="../img/icmp/11.png" /></p>
-<p>使用icmp协议
-<div class="highlight"><pre><span></span><code>traceroute -P icmp xiaolab.net
+<p>首先重置DHCP服务器
+<div class="highlight"><pre><span></span><code><span class="c1"># windows </span>
+ipconfig /release
+<span class="c1"># mac</span>
+Network preference -&gt; TCP/IP -&gt; Configure IPv4 -&gt; Off
 </code></pre></div></p>
-<p><img alt="" src="../img/icmp/8.png" />
-可以看到，虽然收到了两跳的超时，但是第21跳就可以收到目的地发过来的ICMP超时错误了</p>
-<p><strong>wireshark</strong>
-<img alt="" src="../img/icmp/9.png" />
-这一次使用的就是icmp作为请求数据包，类型为Type 8 (Echo (ping) request)，也就是使用ping工具发送的数据包了
-其余的原理则与UDP相同</p>
-<h2 id="_3">参考书目及链接</h2>
+<p>接着开启wireshark监听，并请求DHCP服务器分配IP地址
+<div class="highlight"><pre><span></span><code><span class="c1"># windows</span>
+ipconfig /renew
+<span class="c1"># mac</span>
+Network preference -&gt; TCP/IP -&gt; Configure IPv4 -&gt; Using DHCP
+</code></pre></div></p>
+<p><img alt="" src="../img/dhcp/2.png" /></p>
+<ol>
+<li>DHCP协议运行在UDP之上，当Client传送给封包给Server时，采用的是UDP <strong>67端口</strong> ，从Server传送给Client则是使用UDP <strong>68端口</strong></li>
+<li>UDP下的包裹的是Bootstrap Protocol协议</li>
+</ol>
+<blockquote>
+<p>DHCP协议是从BOOTP的基础上发展而来的，它们都是主机配置协议，都可以大大减少管理员的工作量。BOOTP可以看成是简单版的DHCP，是对主机的静态配置，而DHCP可以依据一些策略对主机进行动态配置。BOOTP用于无盘工作站的启动和配置，而DHCP更适用于客户端接入变化的网络，即客户端接入时间、接入地点不固定</p>
+</blockquote>
+<h3 id="dhcp-discover">DHCP Discover</h3>
+<p>首先主机会发送一个DHCP(discover)来发现DHCP服务器</p>
+<p><img alt="" src="../img/dhcp/3.png" /></p>
+<ol>
+<li>因为主机不知道它所连接网络的IP地址，所以使用0.0.0.0来充当本机IP地址（Src:0.0.0.0）
+同时主机也不知道该网络的DHCP服务器地址，所以使用 <strong>广播目的地址</strong> 255.255.255.255来充当目的地IP地址（Dst:255.255.255.255），通知这个子网内的设备</li>
+<li>DHCP类型为1，表示Discover</li>
+<li>Option字段同时请求了一系列资源，包括子网掩码，DNS服务器地址，路由器地址等</li>
+<li>链路层中则使用本机的MAC地址作为源地址（Src:f0:18:98:5f<img alt="💿" class="emojione" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/svg/1f4bf.svg" title=":cd:" />1a），使用ff:ff:ff:ff:ff:ff作为目的地将这帧广播到这个子网</li>
+</ol>
+<h3 id="dhcp-offer">DHCP Offer</h3>
+<p>接着路由器（DHCP服务器）发送DHCP(offer)来提供信息
+<img alt="" src="../img/dhcp/4.png" /></p>
+<ol>
+<li>offer报文由路由器（DHCP服务器）发送，IP地址为192.168.3.1 
+但是因为此时主机仍然没有IP地址，所以这里还是需要使用 <strong>广播目的地址</strong> 255.255.255.255来充当目的地IP地址，通知这个子网内的设备</li>
+<li>Your（client）IP address表示路由器（DHCP服务器）提供给主机的ip地址（192.168.3.94）</li>
+<li>DHCP类型为2，表示Offer</li>
+<li>Option字段携带推荐资源的信息，包括子网掩码(255.255.255.0)，DNS服务器地址(192.168.3.1)，DHCP服务器地址(192.168.3.1)，路由器地址(192.168.3.1)，IP地址租用期等（如果子网中有多个DHCP服务器，则这些信息不只一组）</li>
+</ol>
+<h3 id="dhcp-request">DHCP Request</h3>
+<p>主机发送DHCP(request)请求ip地址
+<img alt="" src="../img/dhcp/5.png" /></p>
+<ol>
+<li>到现在主机仍然不能确定它所连接网络的IP地址，所以还是只能0.0.0.0来充当本机IP地址（Src:0.0.0.0）
+同时因为主机可能会收到很多Offer，而主机在这些Offer中选择了一个后，需要广播一个Request报文，通知这个子网内的所有服务器，这样才能保证IP地址不会冲突</li>
+<li>DHCP类型为4，表示Request</li>
+<li>Option字段携带着主机选择好的IP地址和DHCP服务器地址</li>
+</ol>
+<h3 id="dhcp-ack">DHCP ACK</h3>
+<p>最后路由器（DHCP服务器）发送DHCP(ACK)给主机，确认信息参数</p>
+<p><img alt="" src="../img/dhcp/6.png" />
+1. Your（client）IP address表示路由器（DHCP服务器）提供给主机的ip地址（192.168.3.94）
+2. DHCP类型为5，表示ACK</p>
+<h3 id="dhcp-arp-probe">DHCP ARP probe</h3>
+<p><a href="https://tools.ietf.org/html/rfc2131#section-2.2">RFC 2131</a></p>
+<p>在DHCP服务器发送了ACK给主机后，主机还会发送一种特殊类型的ARP报文来检测此时分配给主机的IP是否已经被分配过了，防止在一个子网下有多个IP相同的地址</p>
+<p><img alt="" src="../img/dhcp/8.png" /></p>
+<p><img alt="" src="../img/dhcp/9.png" />
+1. 使用ff:ff:ff:ff:ff:ff作为目的地将这帧广播到这个子网
+2. Sender IP address为0.0.0.0是为了防止别的设备更新他们的arp缓存（因为直到此刻还不能最终确定IP地址）
+3. Target IP address是DHCP分配给主机的IP地址。如果有别的设备已经使用了这个IP地址，则会发送一个ARP回复报文给主机，表示IP地址冲突</p>
+<h3 id="dhcp-release">DHCP Release</h3>
+<p>当主机不再需要使用分配IP地址时，就会主动向DHCP服务器发送Release报文，告知服务器不再需要分配IP地址给主机，DHCP服务器会释放被绑定的租约</p>
+<p><img alt="" src="../img/dhcp/7.png" /></p>
+<ol>
+<li>此时Src和Dst的ip地址都已经是确定了的</li>
+<li>Your IP address:0.0.0.0，表示不再需要分配IP地址给主机</li>
+<li>DHCP类型为7，表示Release</li>
+</ol>
+<p>那么在复杂的网络环境下，如何确定相互通信的客户端和服务端？
+观察前四个报文中的Transaction ID，都为0xf7cb22f8，所以客户端和服务端也就是通过这个ID进行通信的</p>
+<h2 id="_1">参考链接</h2>
 <ul>
 <li>
 <p>Computer Networking - A Top Down Approach, 7<sup>th</sup>, converted</p>
 </li>
 <li>
-<p><a href="https://www.jianshu.com/p/75a5822d0eec">https://www.jianshu.com/p/75a5822d0eec</a></p>
+<p><a href="https://www.netmanias.com/en/post/techdocs/5999/dhcp-network-protocol/understanding-the-detailed-operations-of-dhcp">https://www.netmanias.com/en/post/techdocs/5999/dhcp-network-protocol/understanding-the-detailed-operations-of-dhcp</a></p>
+</li>
+<li>
+<p><a href="https://www.oreilly.com/library/view/internet-core-protocols/1565925726/ch03s03s02.html#ch03-14446">https://www.oreilly.com/library/view/internet-core-protocols/1565925726/ch03s03s02.html#ch03-14446</a></p>
 </li>
 </ul>
                 
@@ -1322,41 +1203,6 @@ traceroute会选择一个大于30000的端口作为目的ip的接收端口进行
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../dns/" title="DNS" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  上一页
-                </span>
-                DNS
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../../resource/" title="Resource" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  下一页
-                </span>
-                Resource
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

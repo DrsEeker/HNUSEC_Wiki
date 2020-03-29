@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#dhcp" tabindex="0" class="md-skip">
+      <a href="#wireshark" tabindex="0" class="md-skip">
         跳转至
       </a>
     
@@ -551,13 +551,6 @@
   
     <label class="md-nav__title" for="__toc">目录</label>
     <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#dhcp" class="md-nav__link">
-    DHCP
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#wireshark" class="md-nav__link">
@@ -1122,13 +1115,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#dhcp" class="md-nav__link">
-    DHCP
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#wireshark" class="md-nav__link">
     Wireshark抓包
   </a>
@@ -1211,12 +1197,14 @@
                 
                   <h1>DHCP</h1>
                 
-                <h2 id="dhcp">DHCP</h2>
+                <blockquote>
+<p>本文作者 <a href="http://www.wenweizeng.com/">@zww</a></p>
+</blockquote>
 <p>DHCP(Dynamic Host Configuration Protocol) 动态主机配置协议</p>
 <p>DHCP协议是一个局域网的网络协议，指的是由服务器控制一段IP地址范围，客户机登录服务器时就可以自动获得服务器分配的IP地址和子网掩码等其他信息</p>
 <p>并且DHCP还是一个CS（客户端/服务端）协议。客户通常是新达到的主机，它要获得包括自身使用的IP地址在内的网络配置信息</p>
-<p>DHCP CS交互示意图
-<img alt="" src="../img/dhcp/1.png" /></p>
+<p>DHCP CS交互示意图</p>
+<p><img alt="" src="../img/dhcp/1.png" /></p>
 <h2 id="wireshark">Wireshark抓包</h2>
 <p>首先重置DHCP服务器
 <div class="highlight"><pre><span></span><code><span class="c1"># windows </span>

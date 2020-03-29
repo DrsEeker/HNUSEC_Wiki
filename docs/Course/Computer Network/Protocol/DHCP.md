@@ -1,4 +1,4 @@
-## DHCP
+> 本文作者 [@zww](http://www.wenweizeng.com/)
 
 DHCP(Dynamic Host Configuration Protocol) 动态主机配置协议
 
@@ -7,6 +7,7 @@ DHCP协议是一个局域网的网络协议，指的是由服务器控制一段I
 并且DHCP还是一个CS（客户端/服务端）协议。客户通常是新达到的主机，它要获得包括自身使用的IP地址在内的网络配置信息
 
 DHCP CS交互示意图
+
 ![](img/dhcp/1.png)
 
 ## Wireshark抓包

@@ -1294,13 +1294,16 @@ wireshark 过滤规则
 <h3 id="dns_2">DNS查询报文</h3>
 <p><img alt="" src="../img/dns/3.png" /></p>
 <ol>
-<li>DNS协议运行在UDP之上，使用53号端口</li>
+<li>Flags中第一位为0，表示query</li>
+<li>DNS协议运行在UDP之上，使用51486端口发送（这个可变），53号端口接受</li>
 <li>查询报文由本机192.168.3.89发送给本地dns服务器192.168.3.1</li>
 <li>DNS查询报文中有Transaction ID：0x511e，Queries表明要查询的域名hnusec.group（Type A）</li>
 </ol>
 <h3 id="dns_3">DNS回答报文</h3>
 <p><img alt="" src="../img/dns/4.png" /></p>
 <ol>
+<li>Flags中第一位为1，表示response</li>
+<li>53端口发送，51486号端口接受（与👆DNS查询报文相对应）</li>
 <li>Queries的内容与对应的查询报文中Queries是相同的（例如Transaction ID同为0x511e）</li>
 <li>Answers返回要查询的域名hnusec.group对应的类型（Type A)，IP地址（39.100.94.176）以及其他的一些参数</li>
 <li>Authoritative nameservers返回域名所对应的权威DNS服务器（dns19.hichina.com, dns20.hichina.com）

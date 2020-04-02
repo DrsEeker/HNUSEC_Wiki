@@ -95,20 +95,23 @@ ip.addr == Your IP && dns
 
 ![](img/dns/3.png)
 
-1. DNS协议运行在UDP之上，使用53号端口
-2. 查询报文由本机192.168.3.89发送给本地dns服务器192.168.3.1
-3. DNS查询报文中有Transaction ID：0x511e，Queries表明要查询的域名hnusec.group（Type A）
+1. Flags中第一位为0，表示query
+2. DNS协议运行在UDP之上，使用51486端口发送（这个可变），53号端口接受
+3. 查询报文由本机192.168.3.89发送给本地dns服务器192.168.3.1
+4. DNS查询报文中有Transaction ID：0x511e，Queries表明要查询的域名hnusec.group（Type A）
 
 ### DNS回答报文
 
 ![](img/dns/4.png)
 
-1. Queries的内容与对应的查询报文中Queries是相同的（例如Transaction ID同为0x511e）
-2. Answers返回要查询的域名hnusec.group对应的类型（Type A)，IP地址（39.100.94.176）以及其他的一些参数
-3. Authoritative nameservers返回域名所对应的权威DNS服务器（dns19.hichina.com, dns20.hichina.com）
+1. Flags中第一位为1，表示response
+2. 53端口发送，51486号端口接受（与👆DNS查询报文相对应）
+3. Queries的内容与对应的查询报文中Queries是相同的（例如Transaction ID同为0x511e）
+4. Answers返回要查询的域名hnusec.group对应的类型（Type A)，IP地址（39.100.94.176）以及其他的一些参数
+5. Authoritative nameservers返回域名所对应的权威DNS服务器（dns19.hichina.com, dns20.hichina.com）
 ![](img/dns/5.png)
 与域名解析中分配的DNS服务器是一致的
-4. Additional records会返回一些帮助信息，例如这里就返回了这些权威DNS服务器对应的IP地址（一个域名对应多个地址，参考DNS负载均衡）
+5. Additional records会返回一些帮助信息，例如这里就返回了这些权威DNS服务器对应的IP地址（一个域名对应多个地址，参考DNS负载均衡）
 
 在查看Answers中Name对应的16进制数据时，发现并不是hnusec.group，而是0xc00c，这是为什么呢
 ![](img/dns/7.png)

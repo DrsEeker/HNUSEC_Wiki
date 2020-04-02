@@ -80,8 +80,9 @@ mysql> select `1` from (select 1,2,3 union select * from newtable)a;
 4 rows in set (0.00 sec)
 ```
 
-这一句话的意思是将select 1,2,3 union select * from newtable的内容取名为 **表a**，然后再按照列名进行选择 (select \`1\` from a)
-这里还有一个点是为什么要用 **\`1\`** 而不是 **1**。因为此时的表a的列名为数字1，2，3，所以需要用 **反引号** 对其进行转义
+这一句话的意思是将select 1,2,3 union select * from newtable的内容取名为 **表a**，然后再按照列名进行选择 (``select `1` from a ``)
+
+这里还有一个点是为什么要用`` `1` ``而不是 1 ？因为此时的表a的列名为数字1，2，3，所以需要用 **反引号** 对其进行转义
 
 那么当有了前面的基础后，我们就可以进行无列名的注入了
 
@@ -111,7 +112,7 @@ union select group_concat(a) from (select * from (select 1 `a`)m join (select 2 
 
 总体来说，使用的还是union注入的思路，只是这里将其中的一个列换成我们要填入的payload即可
 
-注意这里需要用group_concat将\`2\`包裹，因为这一个无列名的payload会返回多行数据，而我们这里只能返回一个数据，所以可以使用group_concat将多行数据都连接起来，那么最后返回的也就是被我命名为2的列的数据了
+注意这里需要用group_concat将`` `2` ``包裹，因为这一个无列名的payload会返回多行数据，而我们这里只能返回一个数据，所以可以使用group_concat将多行数据都连接起来，那么最后返回的也就是被我命名为2的列的数据了
 
 ### 比较注入
 

@@ -1,8 +1,8 @@
 # web类——cookies
 
 打开题目发现提示
-![](png/1.png)
 
+![](png/1.png)
 
 于是想到flag可能在cookie里
 

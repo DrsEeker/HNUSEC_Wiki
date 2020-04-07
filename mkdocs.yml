@@ -42,7 +42,8 @@ nav:
         - HNUSEC OJ:
             - 302: Writeups/302/web_302.md
             - cookies: Writeups/cookies/web_cookies.md
-            - hidden message: Writeups/hidden message/web_hidden_message.md            
+            - hidden message: Writeups/hidden message/web_hidden_message.md       
+            - PNG: Weiteups/PNG/Misc_png.md     
     - Papers:
         - Introduction: Papers/introduction.md
     - CVE:

@@ -1,4 +1,4 @@
-# web类——hidden message
+# hidden message
 
 打开链接后看到如下提示：
 

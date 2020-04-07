@@ -1,4 +1,4 @@
-# web类——cookies
+# cookies
 
 打开题目发现提示
 

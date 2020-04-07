@@ -32,17 +32,17 @@ nav:
         - Introduction: CTF-Web/introduction.md
         - SQL Injection:
             - No Column Injection & Bypass Information_schema: CTF-Web/SQL Injection/NoColumnInjection&BypassInformation_schema.md
-        - WriteUps:
-            - HNUSEC OJ:
-                - 302: CTF-Web/wp/web_302.md
-                - cookies: CTF-Web/wp/web_cookies.md
-                - hidden message: CTF-Web/wp/web_hidden_message.md
     - CTF-Pwn:
         - Introduction: CTF-Pwn/introduction.md
     - CTF-Reverse:
         - Introduction: CTF-Reverse/introduction.md
     - CTF-Crypto:
-        - Introduction: CTF-Crypto/introduction.md            
+        - Introduction: CTF-Crypto/introduction.md
+    - WriteUps:
+        - HNUSEC OJ:
+            - 302: Writeups/302/web_302.md
+            - cookies: Writeups/cookies/web_cookies.md
+            - hidden message: Writeups/hidden message/web_hidden_message.md            
     - Papers:
         - Introduction: Papers/introduction.md
     - CVE:

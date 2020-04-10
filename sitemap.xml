@@ -1,103 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>http://wiki.hnusec.group/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Introduction/contest/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Introduction/about_us/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Course/introduction/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Course/Computer%20Network/Protocol/dns/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Course/Computer%20Network/Protocol/dhcp/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Course/Computer%20Network/Protocol/icmp/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Course/Computer%20Network/resource/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Course/Computer%20Network/tools/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/CTF-Misc/introduction/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/CTF-Web/introduction/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/CTF-Web/SQL%20Injection/NoColumnInjection%26BypassInformation_schema/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/CTF-Pwn/introduction/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/CTF-Reverse/introduction/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/CTF-Crypto/introduction/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Writeups/302/web_302/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Writeups/cookies/web_cookies/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Writeups/hidden%20message/web_hidden_message/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>http://wiki.hnusec.group/Writeups/PNG/misc_png/</loc>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Papers/introduction/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/CVE/introduction/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Links/introduction/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Links/tools/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Links/CTF/study/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/Links/Operating%20System/content/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>http://wiki.hnusec.group/F%26Q/introduction/</loc>
-     <lastmod>2020-04-07</lastmod>
+     <lastmod>2020-04-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

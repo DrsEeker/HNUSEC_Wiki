@@ -26,7 +26,7 @@ nav:
                 - ICMP: Course/Computer Network/Protocol/icmp.md
             - Resource: Course/Computer Network/resource.md
             - Tools: Course/Computer Network/tools.md
-        - Datanase:
+        - Database:
             - Mysql:
                 - Course/Database/Mysql/compare.md
     - CTF-Misc:

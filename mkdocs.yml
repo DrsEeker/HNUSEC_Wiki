@@ -57,7 +57,10 @@ nav:
         - CTF: Links/CTF/study.md
         - Operating System: 
             - MACOS: Links/Operating System/content.md
-    - F&Q:
+    - Reference books & notes:
+        - Reference books: Reference books & notes/Links of Reference books.md
+        - Notes: 
+    -常见问题解答:
         - Introduction: F&Q/introduction.md
 
 theme:
